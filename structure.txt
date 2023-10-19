@@ -1,0 +1,67 @@
+project-root/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Login/
+│   │   │   │   ├── index.js
+│   │   │   │   └── styles.css
+│   │   │   ├── UserRegistrationForm1/
+│   │   │   │   ├── index.js
+│   │   │   │   ├── styles.css
+│   │   │   │   └── ResendEmailButton.js
+│   │   │   ├── UserRegistrationForm2/
+│   │   │   │   ├── index.js
+│   │   │   │   └── styles.css
+│   │   │   ├── AdminPanel/
+│   │   │   │   ├── index.js
+│   │   │   │   └── styles.css
+│   │   │   ├── EditForm/
+│   │   │   │   ├── index.js
+│   │   │   │   └── styles.css
+│   │   │   ├── UserPanel/
+│   │   │   │   ├── index.js
+│   │   │   │   └── styles.css
+│   │   │   ├── RoleDurationDisplayCurrent/
+│   │   │   │   ├── index.js
+│   │   │   │   └── styles.css
+│   │   │   ├── RoleBasedContent/
+│   │   │   │   ├── AdminContent.tsx
+│   │   │   │   ├── UserContent.tsx
+│   │   │   │   ├── GuestContent.tsx
+│   │   │   │   └── ... (other role-specific content components)
+│   │   ├── utils/
+│   │   │   └── validation.js
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+├── backend/
+│   ├── endpoints/
+│   │   ├── register/
+│   │   │   ├── user.php
+│   │   │   ├── role.php
+│   │   │   └── resend_activation.php
+│   │   ├── activate/
+│   │   │   ├── role.php
+│   │   │   └── user_verify.php
+│   │   ├── edit/
+│   │   │   ├── user.php
+│   │   │   └── role.php
+│   │   ├── duration/
+│   │   │   └── get.php
+│   │   └── logs/
+│   │       ├── register_user.log
+│   │       ├── register_role.log
+│   │       ├── activate_role.log
+│   │       ├── edit_user.log
+│   │       ├── edit_role.log
+│   │       └── duration_get.log
+│   ├── utils/
+│   │   ├── validation.php
+│   │   ├── authentication.php
+│   │   └── logger.php
+│   ├── database/
+│   │   ├── connection.php
+│   │   └── schema.sql
+│   └── cronJobs/
+│       └── roleDueNotifier.php
+└── README.md

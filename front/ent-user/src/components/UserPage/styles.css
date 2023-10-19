@@ -1,0 +1,60 @@
+.user-profile-page {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  padding: 10px;
+  background-color: #222;
+  color: #fff;
+}
+
+.user-profile-page h2 {
+  font-family: "Georgia", serif;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.user-profile-page p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.user-profile-page a {
+  color: #222;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.user-profile-page .role-info {
+  margin-bottom: 20px;
+}
+
+.user-profile-page .role-info h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.user-profile-page .role-info p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.user-profile-page .content {
+  margin-bottom: 20px;
+}
+
+.user-profile-page .content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.user-profile-page .content p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}

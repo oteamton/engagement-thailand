@@ -1,0 +1,155 @@
+### Frontend:
+
+**Component: LoginPage:**
+- Input fields: email, password.
+- OnSubmit:
+  -Client-side validation for input fields.
+    -If validation fails, display a feedback message below the respective input field.
+  -Send credentials over HTTPS to backend /login endpoint.
+- On success:
+  - Receive sessionID from backend.
+  - Store sessionID securely in browser using HttpOnly cookie.
+  - Redirect/navigate user to UserPage.
+- On error:
+  - Display error message returned from backend.
+-"Forgot password" link/button:
+    -OnClick: Navigate user to password reset process.
+
+**Pseudocode for UserRegistrationForm2, EditForm, UserPage, etc.:**
+- Before rendering or initiating actions:
+  -Check for the presence of the sessionID in the browser's HttpOnly cookie.
+  -If the sessionID is missing or invalid, redirect the user to the LoginPage.
+  -Attach the sessionID to requests to the backend (typically as a cookie).
+
+**Component: UserRegistrationForm1:**
+- Input fields: email, password, etc.
+- OnSubmit:
+  - Client-side validation for input fields.
+    - If validation fails, display a feedback message below the respective input field.
+  - Send data over HTTPS to backend `/register/user` endpoint.
+  - On success: Display "Check your email for activation" message.
+  - On error: Display error message returned from backend.
+  - If user didn't receive activation email: Provide a "resend email" button.
+
+**Component: UserRegistrationForm2:**
+- Ensure user is logged in.
+- Input fields: desired role.
+- OnSubmit:
+  - Client-side validation.
+  - Send data over HTTPS to backend `/register/role` endpoint.
+  - On success: Display "Waiting for admin to activate your role" message.
+  - On error: Display error message from backend.
+
+**Component: AdminPanel:**
+- List of users with pending roles.
+- For each user: Display user information, "Activate role" button.
+  - OnClick: Confirm activation.
+  - On confirmation: Send user ID and role over HTTPS to backend `/activate/role` endpoint. Update UI to show role is activated.
+
+**Component: EditForm:**
+- Determine type of data (User or Role).
+  - If User data: Display fields like email, password, etc. If password change, require current password.
+  - If Role data: Display role-related fields.
+  - OnSubmit:
+    - Client-side validation.
+    - Based on data type: 
+      - If User data, send over HTTPS to backend `/edit/user`.
+      - If Role data, send over HTTPS to backend `/edit/role`.
+    - On success: Display success message.
+    - On error: Display error message from backend.
+
+**Component: UserPage:**
+- On load: Fetch user details and roles from backend.
+- Display user's details and EditForm link.
+- Display user's role: If active, show details and Display user's role duration, If pending, show "Waiting for admin approval" message.
+- Display content base on user's role.(dynamic)
+
+**Component: RoleDurationDisplayCurrent:**
+- Display user's role duration.
+- If nearing due (e.g., 7 days before): Highlight or show warning.
+
+### Backend (PHP):
+
+**Endpoint `/register/user`:**
+- Log request.
+- Receive and validate user data.
+- Store data with "inactive" status.
+- Generate activation link with token.
+- Email user the activation link.
+- Return response.
+
+**For data-fetching actions or other backend interactions:**
+  -The backend validates the sessionID.
+  -If the sessionID is valid, allow the operation.
+  -If the sessionID is invalid or expired, return an "Unauthorized" error and handle it appropriately in the frontend (e.g., redirect to the LoginPage).
+
+**Endpoint `/resend/activation`:**
+- Authenticate user.
+- Generate new activation link with token.
+- Email user the activation link.
+- Return response.
+
+**Endpoint `/register/role`:**
+- Log request.
+- Authenticate user.
+- Receive and validate role data.
+- Store data with "pending" status.
+- Generate activation link for admin.
+- Email admin for activation.
+- Return response.
+
+**Endpoint `/activate/role`:**
+- Log request.
+- Authenticate admin.
+- Receive user ID and role.
+- Activate role in database.
+- Email user about activation.
+- Return response.
+
+**Endpoint `/edit/user`:**
+- Log request.
+- Authenticate user.
+- If password change, confirm current password.
+- Receive and validate updated data.
+- Update database.
+- Return response.
+
+**Endpoint `/edit/role`:**
+- Log request.
+- Authenticate user.
+- Receive and validate updated role data.
+- Update database.
+- Return response.
+
+**Endpoint "/user/details":**
+1. Authenticate the request using session or token
+   - IF authentication fails
+     - RETURN error response with status "Unauthorized"
+2. Use the authenticated userID to fetch user's details from the database
+   - IF no user details found
+     - RETURN error response with status "User not found"
+3. Use the same userID to fetch the user's role from the database
+   - IF no role found
+     - SET role status as "None"
+   - ELSE IF role is active
+     - FETCH role details (name, startDate, endDate, etc.)
+   - ELSE IF role is pending
+     - SET role status as "Pending"
+4. Construct the response object with user details and role information
+5. RETURN the response object with a success status
+
+**Endpoint `/duration/get`:**
+- Log request.
+- Authenticate user.
+- Retrieve role duration from database.
+- Return duration.
+
+### Database:
+
+**Table: UsersRoles:**
+- Columns: userID, role, startDate, endDate. Unique constraint on userID and role.
+
+### Cron Job:
+- Daily:
+  - Check roles nearing due.
+  - Email users with roles nearing expiry.

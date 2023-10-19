@@ -1,0 +1,13 @@
+{
+  "short_name": "Ent User",
+  "name": "Engagement Thailand User Management System",
+  "icons": [
+    {
+      
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
