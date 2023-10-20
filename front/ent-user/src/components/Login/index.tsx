@@ -28,7 +28,7 @@ const Login: React.FC = () => {
         if (Object.keys(errorsObject).length > 0) return;
 
         try {
-            const response = await fetch('/login', {
+            const response = await fetch('http//localhost:8000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

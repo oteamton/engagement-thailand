@@ -1,21 +1,40 @@
 <?php
-require_once '../../database/connection.php';
+require_once(dirname(__DIR__) . '/../database/connection.php');
 
-$token = $_GET['token'];
+header('Access-Control-Allow-Origin: *'); // You might want to limit this to specific domains
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-// Get the user's data using the token
-$sql = "SELECT * FROM temp_users WHERE token = '$token'";
-$result = $conn->query($sql);
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (isset($_GET['token'])) {
+    $token = $_GET['token'];
+    echo $token;
+} else {
+    // Handle the case where the token is not set
+    die("Token not provided");
+}
+
+// Use prepared statements to avoid SQL injection
+$stmt = $conn->prepare("SELECT * FROM temp_users WHERE token = ?");
+$stmt->bind_param("s", $token);  // 's' specifies the variable type => 'string'
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result && $result->num_rows > 0) {
     $user = $result->fetch_assoc();
-    
-    // Insert the user into the main users table
-    $sql_insert = "INSERT INTO users (username, name, surname, email, password) VALUES ('{$user['username']}', '{$user['name']}', '{$user['surname']}', '{$user['email']}', '{$user['password']}')";
-    
-    if ($conn->query($sql_insert) === TRUE) {
+
+    $stmt_insert = $conn->prepare("INSERT INTO users (username, name, surname, email, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt_insert->bind_param("sssss", $user['username'], $user['name'], $user['surname'], $user['email'], $user['password']);
+
+    if ($stmt_insert->execute()) {
         // Delete the token and temporary user data
-        $conn->query("DELETE FROM temp_users WHERE token = '$token'");
+        $stmt_delete = $conn->prepare("DELETE FROM temp_users WHERE token = ?");
+        $stmt_delete->bind_param("s", $token);
+        $stmt_delete->execute();
+
         echo "User verified successfully!";
     } else {
         echo "Error verifying the user.";
@@ -25,4 +44,3 @@ if ($result && $result->num_rows > 0) {
 }
 
 $conn->close();
-?>
