@@ -7,40 +7,64 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 $data = json_decode(file_get_contents("php://input"), true);
+$token = $data['token'] ?? null;
 
-if (isset($_GET['token'])) {
-    $token = $_GET['token'];
-    echo $token;
-} else {
-    // Handle the case where the token is not set
-    die("Token not provided");
+// Validate the token
+if (!$token || strlen($token) !== 32) {
+    sendResponse("Invalid token", "error");
+    exit;
 }
 
-// Use prepared statements to avoid SQL injection
-$stmt = $conn->prepare("SELECT * FROM temp_users WHERE token = ?");
-$stmt->bind_param("s", $token);  // 's' specifies the variable type => 'string'
+try {
+    // Begin transaction
+    $conn->begin_transaction();
 
-$stmt->execute();
-$result = $stmt->get_result();
+    $stmt = $conn->prepare("SELECT * FROM temp_users WHERE token = ? LIMIT 1");
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result && $result->num_rows > 0) {
+    if (!$result || $result->num_rows === 0) {
+        sendResponse("Invalid verification link or token has expired.", "error");
+        exit;
+    }
+
     $user = $result->fetch_assoc();
+    $stmt->close();
 
     $stmt_insert = $conn->prepare("INSERT INTO users (username, name, surname, email, password) VALUES (?, ?, ?, ?, ?)");
     $stmt_insert->bind_param("sssss", $user['username'], $user['name'], $user['surname'], $user['email'], $user['password']);
+    $stmt_insert->execute();
+    $stmt_insert->close();
 
-    if ($stmt_insert->execute()) {
-        // Delete the token and temporary user data
-        $stmt_delete = $conn->prepare("DELETE FROM temp_users WHERE token = ?");
-        $stmt_delete->bind_param("s", $token);
-        $stmt_delete->execute();
+    // Delete from temp_users
+    $stmt_delete = $conn->prepare("DELETE FROM temp_users WHERE token = ?");
+    $stmt_delete->bind_param("s", $token);
+    $stmt_delete->execute();
+    $stmt_delete->close();
 
-        echo "User verified successfully!";
-    } else {
-        echo "Error verifying the user.";
-    }
-} else {
-    echo "Invalid verification link or token has expired.";
+    // Commit transaction
+    $conn->commit();
+    
+} catch (Exception $e) {
+    $conn->rollback();
+    error_log($e->getMessage());
+    sendResponse("An error occurred. Please try again later.", "error");
+    exit;
 }
 
+// Send a success response to the client
+sendResponse("User verified successfully!", "success");
+
 $conn->close();
+
+function sendResponse($message, $status)
+{
+    echo json_encode(["message" => $message, "status" => $status]);
+    exit;
+}
+
+function sendResponseToConsole($message, $status)
+{
+    echo "<script>console.log('$message - $status');</script>";
+}
