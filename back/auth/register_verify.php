@@ -14,16 +14,19 @@ if (!$data || !isset($data->username, $data->name, $data->surname, $data->email,
     exit();
 }
 
+// Hash the password using bcrypt
+$hashedPassword = password_hash($data->password, PASSWORD_BCRYPT);
+
 // Generate a unique token for the user
 $token = bin2hex(random_bytes(16));
 
 $stmt = $conn->prepare("INSERT INTO temp_users (username, name, surname, email, password, token) VALUES (?, ?, ?, ?, ?, ?)");
 
-$stmt->bind_param("ssssss", $data->username, $data->name, $data->surname, $data->email, $data->password, $token);
+$stmt->bind_param("ssssss", $data->username, $data->name, $data->surname, $data->email, $hashedPassword, $token);
 
 if ($stmt->execute()) {
     // Send an email to the user with the verification link
-    $verificationLink = "http://localhost:3001/thanks?token=" . $token;
+    $verificationLink = "http://localhost:3000/thanks?token=" . $token;
     $subject = "Please verify your email";
     $messageBody = "Click on this link to verify your email: " . $verificationLink;
 
