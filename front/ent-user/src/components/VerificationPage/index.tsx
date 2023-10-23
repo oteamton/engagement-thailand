@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -20,13 +20,15 @@ const VerificationPage: React.FC = () => {
     }, [location]);
 
     // Verify and insert
-    const verifyAndInsert = async (token: string) => {
+    const verifyAndInsert = useCallback(async (token: string) => {
         try {
-            const response = await axios.post('http://localhost:8000/endpoint/register/user.php', {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await axios.post('http://localhost:8000/endpoint/register/user.php',
+                { token: token },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
 
             if (response.status === 200) {
                 setStatus('Verified');
@@ -37,7 +39,7 @@ const VerificationPage: React.FC = () => {
         } catch (error) {
             setStatus('Verification failed');
         }
-    };
+    }, []);
 
     return (
         <div>
