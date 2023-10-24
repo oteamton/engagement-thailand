@@ -5,29 +5,21 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: string;
-  isRoleActivated: boolean;
+  role: number;
+  role_status_id: number;
 }
 
 const AdminPanel: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    // Fetch the list of users with pending roles here.
-    // For demonstration purposes, I'll use a mock list.
-    const mockUsers: User[] = [
-      { id: '1', name: 'John Doe', email: 'john@example.com', role: 'Admin', isRoleActivated: false },
-      { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'User', isRoleActivated: false }
-    ];
-    setUsers(mockUsers);
-  }, []);
+  
+  
 
   const handleActivateRole = async (user: User) => {
     const confirmAction = window.confirm(`Are you sure you want to activate the role for ${user.name}?`);
     if (!confirmAction) return;
 
     try {
-      const response = await fetch('http://localhost:8000/endpoint/register/users.php', {
+      const response = await fetch('http://localhost:8000/endpoint/admin/admin_panel.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -36,7 +28,7 @@ const AdminPanel: React.FC = () => {
       });
 
       if (response.ok) {
-        const updatedUsers = users.map(u => u.id === user.id ? { ...u, isRoleActivated: true } : u);
+        const updatedUsers = users.map(u => u.id === user.id ? { ...u, role_status_id: 1 } : u);
         setUsers(updatedUsers);
       } else {
         console.error("Failed to activate role");
@@ -55,7 +47,7 @@ const AdminPanel: React.FC = () => {
             <div>Name: {user.name}</div>
             <div>Email: {user.email}</div>
             <div>Role: {user.role}</div>
-            {user.isRoleActivated ? (
+            {user.role_status_id ? (
               <span>Role Activated</span>
             ) : (
               <button onClick={() => handleActivateRole(user)}>Activate role</button>
