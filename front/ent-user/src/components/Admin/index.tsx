@@ -27,7 +27,7 @@ const AdminPanel: React.FC = () => {
     if (!confirmAction) return;
 
     try {
-      const response = await fetch('/activate/role', {
+      const response = await fetch('http://localhost:8000/endpoint/register/users.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
