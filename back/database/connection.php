@@ -12,11 +12,12 @@ $password = '';
 $dbname = $_ENV['SERVER_DB_NAME'];
 
 // Create a connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$mysqli = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
 } else {
-    echo "Successfully connected to the database!";
+    // echo "Successfully connected to the database!";
+    return $mysqli;
 }

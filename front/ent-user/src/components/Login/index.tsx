@@ -15,10 +15,11 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,19 +32,26 @@ const Login: React.FC = () => {
         try {
             const response = await axios.post('http://localhost:8000/auth/login.php', formData);
 
-            const data = response.data;
+            const { status, session_id, username, role, message } = response.data;
 
-            if (data.status === 'success') {
+            if (status === 'success') {
+                // console.log(session_id);
                 // Store the session ID in local storage
-                localStorage.setItem('session_id', data.session_id);
+                localStorage.setItem('session_id', session_id);
 
-                // Optional: store other data like user role
-                localStorage.setItem('role', data.role);
-
-                navigate('/user');
+                // Optional: store other data in local storage
+                localStorage.setItem('role', role);
+                localStorage.setItem('username', username);
+                console.log("role_id", role);
+                if (role === 4) {
+                    navigate('/admin');
+                } else {
+                    navigate('/user');
+                }
             } else {
-                setGeneralError(data.message || 'Login failed.');
+                setGeneralError(message);
             }
+
         } catch (error) {
             setGeneralError('An error occurred. Please try again.');
         }
