@@ -62,6 +62,8 @@ const UserPage: React.FC = () => {
     }
   };
 
+
+
   return (
     <div>
       <div className='user-profile-page'>
@@ -70,44 +72,23 @@ const UserPage: React.FC = () => {
           <p>{user.email}</p>
           <a href="/editform">EditForm</a>
         </div>
+
         <div>
-          {user.role_status === 'pending' ? (
+          {user.role_status === 'active' ? (
             <>
-              <h3>Role: {user.role}</h3>
-              <h3>Status: {user.role_status}</h3>
-              <p>Duration: {user.role_duration}</p>
+              <h2>Role: {user.role}</h2>
+              <h2>Status: {user.role_status}</h2>
+              <h2>Duration: {user.role_duration}</h2>
             </>
           ) : (
             <h3>Waiting for admin approval</h3>
           )}
         </div>
-      </div>
-      <div>
-        {user.role_status === 'active' ? renderContentByRole(user.role) :
-          <div>
-            <h3>Waiting for admin approval</h3>
-          </div>}
-      </div>
+      </div> 
+      {user.role_status === 'pending' && renderContentByRole(user.role)}
+      {user.role_status === 'active' && renderContentByRole(user.role)}
     </div>
   );
 };
-
-// Mock fetchUserData function
-// const fetchUserData = async (): Promise<User> => {
-// This is a mock. Replace this with actual API calls.
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve({
-//         name: 'John Doe',
-//         email: 'john@example.com',
-//         role: {
-//           status: 'pending',
-//           roleName: 'guest',
-//           duration: '1 year',
-//         },
-//       });
-//     }, 1000);
-//   });
-// };
 
 export default UserPage;

@@ -1,37 +1,52 @@
-
 .admin-panel {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    font-family: "Georgia", serif;
-    font-size: 18px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .admin-panel h1 {
-    font-size: 22px;
-  }
-  
-  .admin-panel button {
-    width: 100%;
-    padding: 10px;
-    background-color: #222;
-    color: #fff;
-    border: 1px solid #222;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .admin-panel div {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
+  display: flex;
+  flex-direction: column;
+  min-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  background-color: #f7f7f7;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.admin-panel h1 {
+  font-size: 22px;
+}
+
+.admin-panel button {
+  width: 100%;
+  padding: 10px;
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #222;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.admin-panel div {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.user-list {
+  width: 100%;
+}
+
+.user-row {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-data {
+  flex: 1;
+  text-align: center;
+}

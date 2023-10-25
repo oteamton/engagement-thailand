@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const VerificationPage: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [status, setStatus] = useState<string>('Verifying...');
     const [token, setToken] = useState<string | null>(null);
 
@@ -32,7 +33,9 @@ const VerificationPage: React.FC = () => {
 
             if (response.status === 200) {
                 setStatus('Verified');
+                navigate('/login');
                 console.log(token);
+                return <p>Thank for Registration!</p>;
             } else {
                 setStatus('Verification failed');
             }
@@ -45,7 +48,7 @@ const VerificationPage: React.FC = () => {
         <div>
             <div className="container">
                 <h1>{status}</h1>
-                {status.includes('Verified') && <p>Thank for Registration!</p>}
+                {status.includes('Verified')}
             </div>
         </div>
     );

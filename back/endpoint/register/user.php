@@ -17,9 +17,9 @@ if (!$token || strlen($token) !== 32) {
 
 try {
     // Begin transaction
-    $conn->begin_transaction();
+    $mysqli->begin_transaction();
 
-    $stmt = $conn->prepare("SELECT * FROM temp_users WHERE token = ? LIMIT 1");
+    $stmt = $mysqli->prepare("SELECT * FROM temp_users WHERE token = ? LIMIT 1");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -32,22 +32,22 @@ try {
     $user = $result->fetch_assoc();
     $stmt->close();
 
-    $stmt_insert = $conn->prepare("INSERT INTO users (username, name, surname, email, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt_insert = $mysqli->prepare("INSERT INTO users (username, name, surname, email, password) VALUES (?, ?, ?, ?, ?)");
     $stmt_insert->bind_param("sssss", $user['username'], $user['name'], $user['surname'], $user['email'], $user['password']);
     $stmt_insert->execute();
     $stmt_insert->close();
 
     // Delete from temp_users
-    $stmt_delete = $conn->prepare("DELETE FROM temp_users WHERE token = ?");
+    $stmt_delete = $mysqli->prepare("DELETE FROM temp_users WHERE token = ?");
     $stmt_delete->bind_param("s", $token);
     $stmt_delete->execute();
     $stmt_delete->close();
 
     // Commit transaction
-    $conn->commit();
+    $mysqli->commit();
     
 } catch (Exception $e) {
-    $conn->rollback();
+    $mysqli->rollback();
     error_log($e->getMessage());
     sendResponse("An error occurred. Please try again later.", "error");
     exit;
@@ -56,7 +56,7 @@ try {
 // Send a success response to the client
 sendResponse("User verified successfully!", "success");
 
-$conn->close();
+$mysqli->close();
 
 function sendResponse($message, $status)
 {

@@ -1,11 +1,12 @@
 import React from 'react';
+import './styles.css';
 
 const title = "Preium Basketball Teaching";
 const description = "Learn how to teach basketball to your students.";
 const imageUrl = "/images/basketball_teaching.jpg";
 const PremiumContent: React.FC = () => {
     return (
-        <div>
+        <div className='mt'>
             <h1>{title}</h1>
             <p>{description}</p>
             <img src={imageUrl} alt="Basketball" />
