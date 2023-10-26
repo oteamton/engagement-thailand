@@ -33,7 +33,7 @@ This project is designed to manage a user system. The frontend is built using th
 2. **Backend Development**: Setting up API endpoints and business logic.
 3. **Database Integration**: Establishing a connection to the SQL database and designing schemas.
 4. **Testing**: Ensuring the functionality of the entire system through comprehensive tests.
-5. **Next**: เพืิ่ม admin เห็นลายระเอียด, ใช้ข้อมูลจริง, table search func, close risk function and inc handl(error), styling userpage, แจ้งเตือนก่อนหมดสมาชิก
+5. **Next**: เพืิ่ม admin เห็นลายระเอียด, ใช้ข้อมูลจริง, table search func, close risk function and inc handl(error), styling userpage, แจ้งเตือนก่อนหมดสมาชิก, transection log number with active and send email back
 6. **Docker** Learn how to use and deploy
 ---
 
