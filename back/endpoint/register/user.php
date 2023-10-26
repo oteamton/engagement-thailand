@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__DIR__) . '/../database/connection.php');
 
-header('Access-Control-Allow-Origin: *'); // You might want to limit this to specific domains
+header('Access-Control-Allow-Origin: http://localhost:3000'); 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');

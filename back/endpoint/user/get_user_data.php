@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: * ");
+header('Access-Control-Allow-Origin: http://localhost:3000'); 
 header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Credentials: true"); 
 
-// Retrieve the session ID from the Authorization header
-$headers = apache_request_headers();
-$sessionId = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : null;
+// Retrieve the session ID from cookie
+$sessionId = $_COOKIE['session_id'] ?? null;
 
 if ($sessionId) {
     $userData = get_user_data_by_session_id($sessionId);
@@ -45,7 +45,6 @@ if ($sessionId) {
 function get_user_data_by_session_id($sessionId)
 {
     global $mysqli;
-
     $stmt = $mysqli->prepare("
         SELECT users.username, users.email, users.name, users.surname, users_roles.role_name, users_roles_status.status_name
         FROM sessions 
@@ -58,9 +57,6 @@ function get_user_data_by_session_id($sessionId)
     $stmt->bind_param("s", $sessionId);
     $stmt->execute();
     $stmt->store_result();
-
-    $username = null;
-    $role = null;
 
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($username, $email, $name, $surname, $role, $role_status);

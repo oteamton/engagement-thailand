@@ -2,40 +2,63 @@
 require_once(dirname(__DIR__) . '/database/connection.php');
 require_once(dirname(__DIR__) . '/utils/email.php');
 
-header('Access-Control-Allow-Origin: *'); // You might want to limit this to specific domains
+header('Access-Control-Allow-Origin: http://localhost:3000'); 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 $data = json_decode(file_get_contents("php://input"));
 
 if (!$data || !isset($data->username, $data->name, $data->surname, $data->email, $data->password)) {
+    http_response_code(400); // Bad Request
     echo json_encode(["message" => "Invalid input"]);
     exit();
 }
 
+// Validate and sanitize user inputs
+$username = filter_var($data->username, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$name = filter_var($data->name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$surname = filter_var($data->surname, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$email = filter_var($data->email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+// Password policy requirements
+$password = $data->password; // Add your password policy checks here
+
 // Hash the password using bcrypt
-$hashedPassword = password_hash($data->password, PASSWORD_BCRYPT);
+$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
 // Generate a unique token for the user
 $token = bin2hex(random_bytes(16));
 
 $stmt = $mysqli->prepare("INSERT INTO temp_users (username, name, surname, email, password, token) VALUES (?, ?, ?, ?, ?, ?)");
 
-$stmt->bind_param("ssssss", $data->username, $data->name, $data->surname, $data->email, $hashedPassword, $token);
+if ($stmt) {
+    $stmt->bind_param("ssssss", $username, $name, $surname, $email, $hashedPassword, $token);
 
-if ($stmt->execute()) {
-    // Send an email to the user with the verification link
-    $verificationLink = "http://localhost:3000/thanks?token=" . $token;
-    $subject = "Please verify your email";
-    $messageBody = "Click on this link to verify your email: " . $verificationLink;
+    if ($stmt->execute()) {
+        // Send an email to the user with the verification link
+        $verificationLink = "http://localhost:3000/thanks?token=" . $token; // Replace with your domain
+        $subject = "Please verify your email";
+        $messageBody = "Click on this link to verify your email: " . $verificationLink;
 
-    sendEmail($data->email, $subject, $messageBody);
-    echo json_encode(["message" => "User registered successfully. Check your email for activation."]);
+        if (sendEmail($email, $subject, $messageBody)) {
+            http_response_code(201); // Created
+            echo json_encode(["message" => "User registered successfully. Check your email for activation."]);
+        } else {
+            http_response_code(500); // Internal Server Error
+            echo json_encode(["message" => "Failed to send verification email."]);
+        }
+    } else {
+        http_response_code(500); // Internal Server Error
+        echo json_encode(["message" => "User registration failed. Please try again."]);
+        // Detailed error
+        error_log("Error: " . $stmt->error);
+    }
+
+    $stmt->close();
 } else {
-    echo json_encode(["message" => "User registration failed. Please try again."]);
-    // Detailed error
-    error_log("Error: " . $stmt->error);
+    http_response_code(500); // Internal Server Error
+    echo json_encode(["message" => "Database error. Please try again later."]);
 }
 
-$conn->close();
+$mysqli->close();
