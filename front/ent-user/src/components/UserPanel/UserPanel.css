@@ -1,0 +1,79 @@
+.user-panel {
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 16px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: "Arial", sans-serif;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.user-panel.compact {
+  border-radius: 10px;
+  width: 200px;
+  height: 100px;
+  padding: 0;
+}
+
+.compact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.compact-username,
+.compact-email {
+  font-size: 14px;
+  color: #007bff;
+  margin: 2px;
+}
+
+.user-panel-title {
+  margin-bottom: 16px;
+  color: #007bff;
+}
+
+.user-info {
+  margin-bottom: 16px;
+}
+
+.user-info-item {
+  margin-bottom: 8px;
+}
+
+.user-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-action-button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.user-action-edit {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.user-action-edit:hover {
+  background-color: #0056b3;
+}
+
+.user-action-logout {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.user-action-logout:hover {
+  background-color: #c82333;
+}

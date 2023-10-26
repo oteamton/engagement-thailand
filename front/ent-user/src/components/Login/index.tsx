@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { validateInputsLogin } from "../../utils/validation";
+import './styles.css';
 
 interface FormData {
     username: string;
@@ -13,7 +14,7 @@ const Login: React.FC = () => {
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [generalError, setGeneralError] = useState<string | null>(null);
     const navigate = useNavigate();
-
+    // const { setRole } = userRole();
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -30,19 +31,12 @@ const Login: React.FC = () => {
         if (Object.keys(errorsObject).length > 0) return;
 
         try {
-            const response = await axios.post('http://localhost:8000/auth/login.php', formData);
-
-            const { status, session_id, username, role, message } = response.data;
+            const response = await axios.post('http://localhost:8000/auth/login.php', formData, {
+                withCredentials: true  // include this line
+            });
+            const { status, role, message } = response.data;
 
             if (status === 'success') {
-                // console.log(session_id);
-                // Store the session ID in local storage
-                localStorage.setItem('session_id', session_id);
-
-                // Optional: store other data in local storage
-                localStorage.setItem('role', role);
-                localStorage.setItem('username', username);
-                console.log("role_id", role);
                 if (role === 4) {
                     navigate('/admin');
                 } else {
@@ -58,35 +52,41 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="username"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                />
-                {errors.username && <div>{errors.username}</div>}
+        <div className="wrapper">
+            <div className="login-bg"></div>
+            <div className="login-container">
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <input
+                        className="input-field"
+                        type="username"
+                        name="username"
+                        placeholder="Username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                    />
+                    {errors.username && <div className="error-message">{errors.username}</div>}
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                />
-                {errors.password && <div>{errors.password}</div>}
+                    <input
+                        className="input-field"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                    />
+                    {errors.password && <div className="error-message">{errors.password}</div>}
 
-                <button type="submit">Login</button>
-            </form>
+                    <div className="btn-container">
+                        <button className="submit-btn" type="submit">Login</button>
+                        <button className="forgot-password-btn" onClick={() => navigate('/forgot-password')}>Forgot password?</button>
+                    </div>
+                </form>
 
-            {generalError && <div>{generalError}</div>}
-
-            <button onClick={() => navigate('/forgot-password')}>Forgot password?</button>
+                {generalError && <div className="general-error">{generalError}</div>}
+            </div>
         </div>
-
     );
+
 }
 
 export default Login;

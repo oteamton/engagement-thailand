@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { validateInputs } from '../../utils/validation';
-import './styles.css';
-
 
 interface FormData {
     username: string;
@@ -55,9 +53,9 @@ const UserRegistrationForm1: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="form-container">
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className="input-group">
                     <input
                         type="text"
                         name="username"
@@ -67,7 +65,7 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     {errors.username && <div className="errors">{errors.username}</div>}
                 </div>
-                <div>
+                <div className="input-group">
                     <input
                         type="text"
                         name="name"
@@ -77,7 +75,7 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     {errors.name && <div className="errors">{errors.name}</div>}
                 </div>
-                <div>
+                <div className="input-group">
                     <input
                         type="text"
                         name="surname"
@@ -87,7 +85,7 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     {errors.surname && <div className="errors">{errors.surname}</div>}
                 </div>
-                <div>
+                <div className="input-group">
                     <input
                         type="email"
                         name="email"
@@ -97,7 +95,7 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     {errors.email && <div className="errors">{errors.email}</div>}
                 </div>
-                <div>
+                <div className="input-group">
                     <input
                         type="password"
                         name="password"
@@ -107,7 +105,7 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     {errors.password && <div className="errors">{errors.password}</div>}
                 </div>
-                <div>
+                <div className="input-group">
                     <input
                         type="password"
                         name="confirmPassword"
@@ -118,7 +116,7 @@ const UserRegistrationForm1: React.FC = () => {
                     {errors.confirmPassword && <div className="errors">{errors.confirmPassword}</div>}
                 </div>
                 {/* Add other fields if needed */}
-                <div>
+                <div className="checkbox-container">
                     <label>
                         <input
                             type="checkbox"

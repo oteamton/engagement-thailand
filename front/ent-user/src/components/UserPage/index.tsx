@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Logout from '../../utils/logout';
 import GuestContent from '../RoleBasedContent/GuestContent';
 import PremiumContent from '../RoleBasedContent/PremiumContent';
 import StandardContent from '../RoleBasedContent/StandardContent';
+import UserPanel from '../UserPanel';
 import './styles.css'
 
 const UserPage: React.FC = () => {
@@ -10,15 +12,11 @@ const UserPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const sessionId = localStorage.getItem('session_id');
-
   const getUserData = async () => {
     setLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/endpoint/user/get_user_data.php', {
-        headers: {
-          'Authorization': `Bearer ${sessionId}`
-        }
+        withCredentials: true // This is the important part
       });
 
       console.log('Backend response:', response); // Logging the entire response for debug purposes
@@ -62,31 +60,9 @@ const UserPage: React.FC = () => {
     }
   };
 
-
-
   return (
-    <div>
-      <div className='user-profile-page'>
-        <div>
-          <h2>{user.username}</h2>
-          <p>{user.email}</p>
-          <a href="/editform">EditForm</a>
-        </div>
-
-        <div>
-          {user.role_status === 'active' ? (
-            <>
-              <h2>Role: {user.role}</h2>
-              <h2>Status: {user.role_status}</h2>
-              <h2>Duration: {user.role_duration}</h2>
-            </>
-          ) : (
-            <h3>Waiting for admin approval</h3>
-          )}
-        </div>
-      </div> 
-      {user.role_status === 'pending' && renderContentByRole(user.role)}
-      {user.role_status === 'active' && renderContentByRole(user.role)}
+    <div className="page-container">
+      <UserPanel user={user} onEdit={() => {}} onLogout={() => {}} />
     </div>
   );
 };
