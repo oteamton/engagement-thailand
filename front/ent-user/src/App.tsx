@@ -5,6 +5,7 @@ import UserPage from './components/UserPage';
 import VerificationPage from './components/VerificationPage';
 import AdminPanel from './components/Admin';
 import Login from './components/Login';
+import './App.css';
 
 function App() {
   return (

@@ -1,0 +1,171 @@
+.form-container {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  margin: 50px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding: 10px 10px 10px 29px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border 0.3s ease;
+
+  /* This ensures the border and padding are included in the input's total width */
+  box-sizing: border-box;
+}
+
+/* Check box style  */
+input[type="checkbox"] {
+  width: fit-content;
+}
+
+input:hover {
+  border: 1px solid #007bff;
+}
+
+input:focus {
+  border: 1px solid #007bff;
+}
+
+.input-icon {
+  position: absolute;
+  left: 8px; /* Adjust to position the icon correctly */
+  top: 48%;
+  transform: translateY(-50%); /* Vertically center the icon */
+  font-size: 16px; /* Adjust based on the size you want */
+  color: #aaa; /* Icon color */
+  pointer-events: none; /* Ensure the icon doesn't interfere with input clicking */
+  z-index: 1;
+}
+
+.fa-user {
+  left: 11px;
+}
+
+.fa-envelope {
+  left: 9px;
+}
+
+.fa-lock {
+  left: 12px;
+}
+
+.fa .fa-check-circle {
+  font-size: 50px !important;
+}
+
+.checkbox-container {
+  margin-bottom: 15px;
+}
+
+.checkbox-container label {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Creates a small space between the checkbox and the text */
+}
+
+.errors {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px; /* Some space between the error and the checkbox */
+  position: absolute;
+  bottom: -20px; /* Adjust this value based on the size of your error message */
+  left: 0;
+  right: 0;
+}
+
+.invalid {
+  border: 1px solid red;
+  box-shadow: 0 0 3px red; /* Optional: for a bit more emphasis */
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-resend {
+  background-color: #ff5e00;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.feedback {
+  text-align: start;
+  width: 100%;
+  font-weight: 500; /* Medium font weight */
+  padding: 10px 15px; /* Padding inside the message */
+  margin: 10px 0; /* Margin outside the message */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  display: flex; /* Flexbox to layout icon and text */
+  flex-direction: column-reverse;
+  align-items: center;
+
+  box-sizing: border-box;
+}
+
+.feedback.success {
+  background-color: #e6ffed; /* Light green background */
+  border: 1px solid #a1dcb9; /* Subtle green border */
+  border-radius: 5px; /* Rounded corners */
+  color: #34a853; /* Darker green text */
+}
+
+.feedback.error {
+  background-color: #e6ffed; /* Light green background */
+  border: 1px solid #ffe6e6; /* Subtle green border */
+  border-radius: 5px; /* Rounded corners */
+  color: #e03434; /* Darker green text */
+}
+
+.bg {
+  position: fixed; /* Fixed position */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: #373737; /* Or any color you prefer */
+  z-index: -1; /* Keep it behind the content */
+}
+
+/* Slide-up error feedback effect */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.errors {
+  animation: slideUp 0.3s ease;
+}

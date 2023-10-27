@@ -9,10 +9,36 @@ interface FormData {
     password: string;
 }
 
+interface InputFieldProps {
+    type: 'text' | 'password';  // you can expand this as required
+    name: string;
+    placeholder: string;
+    value: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    error?: string; // assuming this is optional because there might be no error
+}
+
+const InputField: React.FC<InputFieldProps> = ({ type, name, placeholder, value, onChange, error }) => {
+    return (
+        <div className={`input-group ${error ? 'has-error' : ''}`}>
+            <input
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                value={value}
+                onChange={onChange}
+                className={error ? 'invalid' : ''}
+            />
+            <i className={`input-icon fa fa-${type === 'password' ? 'lock' : 'user'}`}></i>
+            {error && <div className="errors">{error}</div>}
+        </div>
+    );
+}
+
 const Login: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ username: '', password: '' });
     const [errors, setErrors] = useState<Partial<FormData>>({});
-    const [generalError, setGeneralError] = useState<string | null>(null);
+    const [feedback, setFeedback] = useState({ message: '', type: '' });
     const navigate = useNavigate();
     // const { setRole } = userRole();
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,11 +69,11 @@ const Login: React.FC = () => {
                     navigate('/user');
                 }
             } else {
-                setGeneralError(message);
+                setFeedback({ message: message, type: 'success' });
             }
 
         } catch (error) {
-            setGeneralError('An error occurred. Please try again.');
+            setFeedback({ message: 'An error occurred. Please try again.', type: 'error' });
         }
     };
 
@@ -56,35 +82,39 @@ const Login: React.FC = () => {
             <div className="login-bg"></div>
             <div className="login-container">
                 <form className="login-form" onSubmit={handleSubmit}>
-                    <input
-                        className="input-field"
-                        type="username"
+                    <InputField
+                        type="text"
                         name="username"
                         placeholder="Username"
                         value={formData.username}
                         onChange={handleInputChange}
+                        error={errors.username}
                     />
-                    {errors.username && <div className="error-message">{errors.username}</div>}
 
-                    <input
-                        className="input-field"
+                    <InputField
                         type="password"
                         name="password"
                         placeholder="Password"
                         value={formData.password}
                         onChange={handleInputChange}
+                        error={errors.password}
                     />
-                    {errors.password && <div className="error-message">{errors.password}</div>}
 
                     <div className="btn-container">
                         <button className="submit-btn" type="submit">Login</button>
-                        <button className="forgot-password-btn" onClick={() => navigate('/forgot-password')}>Forgot password?</button>
+                        <a className="forgot-password" href="/forgot-password">Forgot password?</a>
                     </div>
                 </form>
 
-                {generalError && <div className="general-error">{generalError}</div>}
+                {feedback.message && (
+                    <div className={`feedback ${feedback.type}`}>
+                        <i className={`fa ${feedback.type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}`}></i>
+                        {feedback.message}
+                    </div>
+                )}
             </div>
         </div>
+
     );
 
 }

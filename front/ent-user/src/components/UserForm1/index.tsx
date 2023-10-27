@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { validateInputs } from '../../utils/validation';
+import './styles.css';
 
 interface FormData {
     username: string;
@@ -15,7 +16,7 @@ interface FormData {
 const UserRegistrationForm1: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ username: '', name: '', surname: '', email: '', password: '', confirmPassword: '', tosAccepted: false });
     const [errors, setErrors] = useState<Partial<FormData>>({});
-    const [feedback, setFeedback] = useState<string | null>(null);
+    const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,10 +41,10 @@ const UserRegistrationForm1: React.FC = () => {
                 },
             });
 
-            setFeedback('Check your email for activation');
+            setFeedback({ message: 'Registration successful. Check your email for activation', type: 'success' });
         } catch (errors: any) {
             const errorMessage = errors.response?.data?.message || 'Registration errors. Please try again.';
-            setFeedback(errorMessage);
+            setFeedback({ message: errorMessage, type: 'error' });
         }
     };
 
@@ -52,19 +53,24 @@ const UserRegistrationForm1: React.FC = () => {
         console.log('Resending email...');
     };
 
+
     return (
         <div className="form-container">
+            <div className="bg"></div>
             <form onSubmit={handleSubmit}>
-                <div className="input-group">
+                <div className="input-group" style={errors.username ? { marginBottom: '25px' } : {}} >
                     <input
                         type="text"
                         name="username"
                         placeholder="Username"
                         value={formData.username}
                         onChange={handleInputChange}
+                        className={errors.username ? 'invalid' : ''}
                     />
+                    <i className="input-icon fa fa-user"></i>
                     {errors.username && <div className="errors">{errors.username}</div>}
                 </div>
+
                 <div className="input-group">
                     <input
                         type="text"
@@ -72,9 +78,12 @@ const UserRegistrationForm1: React.FC = () => {
                         placeholder="Name"
                         value={formData.name}
                         onChange={handleInputChange}
+                        className={errors.name ? 'invalid' : ''}
                     />
+                    <i className="input-icon fa fa-address-card"></i>
                     {errors.name && <div className="errors">{errors.name}</div>}
                 </div>
+
                 <div className="input-group">
                     <input
                         type="text"
@@ -82,40 +91,51 @@ const UserRegistrationForm1: React.FC = () => {
                         placeholder="Surname"
                         value={formData.surname}
                         onChange={handleInputChange}
+                        className={errors.surname ? 'invalid' : ''}
                     />
+                    <i className="input-icon fa fa-address-card"></i>
                     {errors.surname && <div className="errors">{errors.surname}</div>}
                 </div>
-                <div className="input-group">
+
+                <div className="input-group" style={errors.email ? { marginBottom: '25px' } : {}} >
                     <input
                         type="email"
                         name="email"
                         placeholder="Email"
                         value={formData.email}
                         onChange={handleInputChange}
+                        className={errors.email ? 'invalid' : ''}
                     />
+                    <i className="input-icon fa fa-envelope"></i>
                     {errors.email && <div className="errors">{errors.email}</div>}
                 </div>
-                <div className="input-group">
+
+                <div className="input-group" style={errors.password ? { marginBottom: '25px' } : {}} >
                     <input
                         type="password"
                         name="password"
                         placeholder="Password"
                         value={formData.password}
                         onChange={handleInputChange}
+                        className={errors.password ? 'invalid' : ''}
                     />
+                    <i className="input-icon fa fa-lock"></i>
                     {errors.password && <div className="errors">{errors.password}</div>}
                 </div>
-                <div className="input-group">
+
+                <div className="input-group" style={errors.password ? { marginBottom: '25px' } : {}} >
                     <input
                         type="password"
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
+                        className={errors.confirmPassword ? 'invalid' : ''}
                     />
+                    <i className="input-icon fa fa-lock"></i>
                     {errors.confirmPassword && <div className="errors">{errors.confirmPassword}</div>}
                 </div>
-                {/* Add other fields if needed */}
+
                 <div className="checkbox-container">
                     <label>
                         <input
@@ -128,13 +148,21 @@ const UserRegistrationForm1: React.FC = () => {
                     </label>
                     {errors.tosAccepted && <div className="errors">{errors.tosAccepted}</div>}
                 </div>
-                <button type="submit">Register</button>
+
+                <div className='btn-container'>
+                    <button type="submit">Register</button>
+                    {/* <button className='btn-resend' onClick={handleResendEmail}>Resend email</button> */}
+                    {hasSubmitted && feedback && (
+                        <button className='btn-resend' onClick={handleResendEmail}>Resend email</button>
+                    )}
+                </div>
             </form>
 
-            {feedback && <div className="errors">{feedback}</div>}
-
-            {hasSubmitted && feedback && !feedback.includes('activation') && (
-                <button onClick={handleResendEmail}>Resend email</button>
+            {feedback.message && (
+                <div className={`feedback ${feedback.type}`}>
+                    <i className={`fa ${feedback.type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}`}></i>
+                    {feedback.message}
+                </div>
             )}
         </div>
     );
