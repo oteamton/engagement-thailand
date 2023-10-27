@@ -14,7 +14,7 @@ function sendEmail($email, $subject = "Verify your email address", $messageBody)
 
     try {
         //Server settings
-        $mail->SMTPDebug = 0; // Enable verbose debug output
+        $mail->SMTPDebug = 2; // Enable verbose debug output
         $mail->isSMTP(); // Set mailer to use SMTP
         $mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers
         $mail->Port = 465; // TCP port to connect to
@@ -23,7 +23,6 @@ function sendEmail($email, $subject = "Verify your email address", $messageBody)
         $mail->Password = $_ENV['SMTP_PASS']; // SMTP password  
         $mail->SMTPAuth = true; // Enable SMTP authentication
                       
-
         //Recipients
         $mail->setFrom($_ENV['SMTP_USER'], $_ENV['SMTP_APP_NAME']);
         $mail->addAddress($email);                                     // Add a recipient
