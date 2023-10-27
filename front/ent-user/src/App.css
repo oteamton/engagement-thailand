@@ -1,0 +1,7 @@
+@import "~font-awesome/css/font-awesome.min.css";
+
+:root {
+    --primary-blue: #007bff;
+    --dark-blue: #0056b3;
+    --input-border-color: #ccc;
+}
