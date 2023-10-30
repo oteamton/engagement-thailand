@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Logout from '../../utils/logout';
-import GuestContent from '../RoleBasedContent/GuestContent';
-import PremiumContent from '../RoleBasedContent/PremiumContent';
+import IndividualContent from '../RoleBasedContent/IndividualContent';
+import OrganizationContent from '../RoleBasedContent/OrganizationContent';
 import StandardContent from '../RoleBasedContent/StandardContent';
 import UserPanel from '../UserPanel';
 import './styles.css'
@@ -11,6 +11,8 @@ const UserPage: React.FC = () => {
   const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPanelExpanded, setPanelExpanded] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const getUserData = async () => {
     setLoading(true);
@@ -31,8 +33,23 @@ const UserPage: React.FC = () => {
     }
   };
 
+  const togglePanel = () => {
+    setPanelExpanded(!isPanelExpanded);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+      setPanelExpanded(false);
+    }
+  };
+
   useEffect(() => {
     getUserData();
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   if (loading) {
@@ -49,20 +66,28 @@ const UserPage: React.FC = () => {
 
   const renderContentByRole = (role: string) => {
     switch (role) {
-      case 'premium':
-        return <PremiumContent />;
-      case 'standard':
+      case 'Standard':
         return <StandardContent />;
-      case 'guest':
-        return <GuestContent />;
-      default:
-        return <div>General content</div>;
+      case 'Organization':
+        return <OrganizationContent />;
+      case 'Individual':
+        return <IndividualContent />;
     }
   };
 
   return (
-    <div className="page-container">
-      <UserPanel user={user} onEdit={() => {}} onLogout={() => {}} />
+    <div className='page-container'>
+      <div ref={panelRef} onClick={togglePanel}>
+        <UserPanel user={user} isExpanded={isPanelExpanded}
+          onToggle={setPanelExpanded} onLogout={() => { }} />
+      </div>
+
+      <div className={`content ${isPanelExpanded ? 'blurred' : ''}`}>
+        <div className='title'>
+          <h1>Welcome to Engagement Thailand</h1>
+        </div>
+        {renderContentByRole(user.role)}
+      </div>
     </div>
   );
 };
