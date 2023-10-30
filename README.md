@@ -1,42 +1,50 @@
 # 🌟 ent-user-system Project Overview
 
+**A beautiful and user-friendly system for managing users.**
+
 ---
 
 ## 🎨 Frontend
 
-- **Framework**: ![React Logo](https://raw.githubusercontent.com/remojansen/logo.ts/master/ts.png) React
-- **Language**: ![TypeScript Logo](https://raw.githubusercontent.com/remojansen/logo.ts/master/ts.png) TypeScript
+* Framework: **React**
+* Language: **TypeScript**
 
 ---
 
 ## ⚙️ Backend
 
-- **Language**: ![PHP Logo](https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg) PHP
+* Language: **PHP**
 
 ---
 
 ## 🗄️ Database
 
-- **Type**: ![SQL Logo](https://www.sqlite.org/images/sqlite370_banner.gif) SQL
+* Type: **SQL**
 
 ---
 
 ## 📖 Project Description
 
-This project is designed to manage a user system. The frontend is built using the React framework and compiled with TypeScript for type safety and enhanced developer experience. On the server side, PHP handles backend operations, while an SQL database is employed to store user data.
+This project is designed to manage a user system in a beautiful and user-friendly way. The frontend is built using the React framework and compiled with TypeScript for type safety and enhanced developer experience. On the server side, PHP handles backend operations, while an SQL database is employed to store user data.
 
 ---
 
 ## ⏳ Next Steps
 
-1. **Frontend Development**: Building out user interfaces and connecting them to the backend.
-2. **Backend Development**: Setting up API endpoints and business logic.
-3. **Database Integration**: Establishing a connection to the SQL database and designing schemas.
-4. **Testing**: Ensuring the functionality of the entire system through comprehensive tests.
-5. **Next**: เพืิ่ม admin เห็นลายระเอียด, ใช้ข้อมูลจริง, table search func, close risk function and inc handl(error), styling userpage, แจ้งเตือนก่อนหมดสมาชิก, transection log number with active and send email back
-6. **Docker** Learn how to use and deploy
+* Frontend Development: Building out user interfaces and connecting them to the backend.
+* Backend Development: Setting up API endpoints and business logic.
+* Database Integration: Establishing a connection to the SQL database and designing schemas.
+* Testing: Ensuring the functionality of the entire system through comprehensive tests.
+* Next:
+    * Add admin to view details
+    * Use real data
+    * Add table search function
+    * Add close risk function and incident handling
+    * Style user page
+    * Add notification before membership expires
+    * Add transaction log number with active and send email back
+* Docker: Learn how to use and deploy
+
 ---
 
 Thank you for considering this project. Feedback and contributions are always welcome!
-
-
