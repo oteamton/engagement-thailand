@@ -5,6 +5,7 @@ import UserPage from './components/UserPage';
 import VerificationPage from './components/VerificationPage';
 import AdminPanel from './components/Admin';
 import Login from './components/Login';
+import EditProfile from './components/EditForm';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path='/thanks' element={<VerificationPage />} />
           <Route path='/admin' element={<AdminPanel />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/edit-profile' element={<EditProfile />} />
         </Routes>
       </BrowserRouter>
     </div>

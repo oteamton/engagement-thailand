@@ -4,7 +4,7 @@ import './styles.css';
 const title = "Preium Basketball Teaching";
 const description = "Learn how to teach basketball to your students.";
 const imageUrl = "/images/basketball_teaching.jpg";
-const PremiumContent: React.FC = () => {
+const IndividualContent: React.FC = () => {
     return (
         <div className='mt'>
             <h1>{title}</h1>
@@ -20,4 +20,4 @@ const PremiumContent: React.FC = () => {
     );
 };
 
-export default PremiumContent;
+export default IndividualContent;
