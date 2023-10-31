@@ -32,11 +32,7 @@ function App() {
                 <UserPage />
               </ProtectedRoute>
             } />
-            <Route path='/thanks' element={
-              <ProtectedRoute>
-                <VerificationPage />
-              </ProtectedRoute>
-            } />
+            <Route path='/thanks' element={<VerificationPage />} />
             <Route path='/admin' element={
               <ProtectedRoute>
                 <AdminPanel />
@@ -47,7 +43,7 @@ function App() {
                 <EditProfile />
               </ProtectedRoute>
             } />
-            
+
           </Routes>
         </AuthProvider>
       </BrowserRouter>
