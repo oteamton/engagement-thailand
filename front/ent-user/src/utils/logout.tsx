@@ -5,7 +5,7 @@ const Logout: React.FC = () => {
     const handleLogout = async () => {
         try {
             // Make an API call to invalidate the session
-            const response = await axios.post('http://localhost:8000/utils/logout.php', {}, {
+            const response = await axios.post('http://localhost:8000/auth/logout.php', {}, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
