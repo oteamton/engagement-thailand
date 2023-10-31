@@ -17,10 +17,9 @@ interface UserPanelProps {
   user: User;
   isExpanded: boolean;
   onToggle: (expanded: boolean) => void;
-  onLogout: () => void;
 }
 
-const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle, onLogout }) => {
+const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle,  }) => {
   const navigate = useNavigate();
   const togglePanel = () => {
     onToggle(!isExpanded);
@@ -47,7 +46,8 @@ const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle, onLogout })
           <div className="user-actions">
             <button className="user-action-button user-action-edit">Join us</button>
             <button className="user-action-button user-action-edit" onClick={onEdit}>Edit Profile</button>
-            <button className="user-action-button user-action-logout" onClick={Logout}>Log Out</button>
+            {/* <button className="user-action-button user-action-logout" onClick={onLogout}>Log Out</button> */}
+            <Logout />
           </div>
         </>
       ) : (
