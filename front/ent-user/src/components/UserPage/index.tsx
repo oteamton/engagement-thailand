@@ -21,8 +21,8 @@ const UserPage: React.FC = () => {
         withCredentials: true // This is the important part
       });
 
-      console.log('Backend response:', response); // Logging the entire response for debug purposes
-      console.log('Backend data:', response.data);
+      // console.log('Backend response:', response); // Logging the entire response for debug purposes
+      // console.log('Backend data:', response.data); 
 
       setUser(response.data);
       setLoading(false);
@@ -79,7 +79,7 @@ const UserPage: React.FC = () => {
     <div className='page-container'>
       <div ref={panelRef} onClick={togglePanel}>
         <UserPanel user={user} isExpanded={isPanelExpanded}
-          onToggle={setPanelExpanded} onLogout={() => { }} />
+          onToggle={setPanelExpanded}/>
       </div>
 
       <div className={`content ${isPanelExpanded ? 'blurred' : ''}`}>
