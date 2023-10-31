@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   height: 200vh; /* Full viewport height */
-  background-image: url('D:\Workbench\TS\ent-user-system\front\ent-user\src\components\UserPage\cover00.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

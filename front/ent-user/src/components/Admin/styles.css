@@ -1,52 +1,64 @@
 .admin-panel {
   display: flex;
   flex-direction: column;
-  min-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  font-family: "Georgia", serif;
-  font-size: 18px;
-  background-color: #f7f7f7;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  font-family: Arial, sans-serif;
 }
 
-.admin-panel h1 {
-  font-size: 22px;
-}
-
-.admin-panel button {
-  width: 100%;
+.search-input {
   padding: 10px;
-  background-color: #222;
-  color: #fff;
-  border: 1px solid #222;
-  border-radius: 5px;
+  margin: 20px;
   font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
+  box-sizing: border-box !important;
+  width: auto!important;
 }
 
-.admin-panel div {
-  font-size: 18px;
-  margin-bottom: 10px;
+.user-table {
+  margin: 20px;
+  border-collapse: collapse;
+  box-sizing: border-box;
 }
 
-.user-list {
-  width: 100%;
-}
-
-.user-row {
-  display: flex;
-  justify-content: space-around;
+.table-header,
+.user-table td {
   padding: 10px;
   border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  text-align: left;
 }
 
-.user-data {
-  flex: 1;
+.table-header {
+  background-color: #f2f2f2;
   text-align: center;
+}
+
+.sort-button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.sort-button:hover {
+  background-color: #ddd;
+}
+
+.status-active {
+  color: green;
+}
+
+.status-pending {
+  color: orange;
+}
+
+.status-expired {
+  color: red;
+}
+
+.role-admin{
+  color: #a67c00;
+  text-shadow: 0 0 1px #a67c00,  /* Slight blur */
+               0 0 1px #a67c00, /* Moderate blur */
+               0 0 15px #a67c00, /* Strong blur */
+               0 0 20px #a67c00, /* Stronger blur */
+               0 0 25px #a67c00, /* Even stronger blur */
+               0 0 30px #a67c00, /* Very strong blur */
+               0 0 35px #a67c00; /* Maximum blur */
 }
