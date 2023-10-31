@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 import axios from "axios";
 import { validateInputsLogin } from "../../utils/validation";
 import './styles.css';
@@ -39,6 +40,7 @@ const Login: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ username: '', password: '' });
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [feedback, setFeedback] = useState({ message: '', type: '' });
+    const { login } = useAuth();
     const navigate = useNavigate();
     // const { setRole } = userRole();
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +62,13 @@ const Login: React.FC = () => {
             const response = await axios.post('http://localhost:8000/auth/login.php', formData, {
                 withCredentials: true  // include this line
             });
-            const { status, role, message } = response.data;
 
+            const { status, role, message } = response.data;
+            login(role);
+            
             if (status === 'success') {
+                
+                
                 if (role === 4) {
                     navigate('/admin');
                 } else {
@@ -72,8 +78,19 @@ const Login: React.FC = () => {
                 setFeedback({ message: message, type: 'success' });
             }
 
-        } catch (error) {
-            setFeedback({ message: 'An error occurred. Please try again.', type: 'error' });
+        } catch (error: any) {
+            // Handle network or server errors
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                const message = error.response.data?.message || 'An error occurred.';
+                setFeedback({ message: message, type: 'error' });
+            } else if (error.request) {
+                // The request was made but no response was received
+                setFeedback({ message: 'No response from server.', type: 'error' });
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                setFeedback({ message: 'Request error.', type: 'error' });
+            }
         }
     };
 
