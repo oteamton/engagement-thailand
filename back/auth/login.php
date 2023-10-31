@@ -3,7 +3,7 @@ require(dirname(__DIR__) . '/database/connection.php');
 
 session_start();
 
-header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Origin: http://localhost:3000'); // When deplay need to change this
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true'); // For cookies
@@ -49,8 +49,14 @@ if ($user['authenticated']) {
         echo json_encode(["status" => "error", "message" => "Session storage failed."]);
     }
 } else {
-    http_response_code(401);
-    echo json_encode(["status" => "error", "message" => "Invalid username or password."]);
+    if (!$user['user_found']) {
+        // User not found in database
+        http_response_code(404);
+        echo json_encode(["status" => "error", "message" => "User not found."]);
+    } else {
+        http_response_code(401);
+        echo json_encode(["status" => "error", "message" => "Invalid username or password."]);
+    }
 }
 
 function authenticate_user($mysqli, $username, $password)
@@ -72,7 +78,8 @@ function authenticate_user($mysqli, $username, $password)
             return [
                 'authenticated' => true,
                 'id' => $userId,
-                'role_id' => $role
+                'role_id' => $role,
+                'user_found' => true
             ];
         }
     }
@@ -80,7 +87,8 @@ function authenticate_user($mysqli, $username, $password)
     return [
         'authenticated' => false,
         'id' => null,
-        'role' => null
+        'role' => null,
+        'user_found' => $stmt->num_rows > 0 // User found or not
     ];
 }
 
@@ -124,7 +132,8 @@ function store_session_id(mysqli $mysqli, string $sessionId, int $userId): bool
 }
 
 // Handle session expiration.
-function handle_session_expiry($mysqli, $userId) {
+function handle_session_expiry($mysqli, $userId)
+{
     $stmt = $mysqli->prepare("DELETE FROM sessions WHERE user_id = ? AND created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
