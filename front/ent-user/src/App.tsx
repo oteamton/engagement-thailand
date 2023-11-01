@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthContext';
-import UserRegistrationForm1 from './components/UserForm1';
+import UserRegister from './components/Register';
 import UserPage from './components/UserPage';
 import VerificationPage from './components/VerificationPage';
 import AdminPanel from './components/Admin';
 import Login from './components/Login';
-import EditProfile from './components/EditForm';
+import UpdateProfile from './components/UserUpdate';
 import './App.css';
 
 interface ProtectedRouteProps {
@@ -25,7 +25,7 @@ function App() {
         <AuthProvider>
           <Routes>
 
-            <Route path='/' element={<UserRegistrationForm1 />} />
+            <Route path='/' element={<UserRegister />} />
             <Route path='/login' element={<Login />} />
             <Route path='/user' element={
               <ProtectedRoute>
@@ -40,10 +40,10 @@ function App() {
             } />
             <Route path='/edit-profile' element={
               <ProtectedRoute>
-                <EditProfile />
+                <UpdateProfile />
               </ProtectedRoute>
             } />
-
+            <Route path='*' element={<Navigate to="/login" replace />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
