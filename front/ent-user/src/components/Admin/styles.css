@@ -9,20 +9,21 @@
   margin: 20px;
   font-size: 16px;
   box-sizing: border-box !important;
-  width: auto!important;
+  width: auto !important;
 }
 
 .user-table {
   margin: 20px;
   border-collapse: collapse;
   box-sizing: border-box;
+  
 }
 
 .table-header,
 .user-table td {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
+  /* border-right: 1px solid #ccc; */
   text-align: left;
 }
 
@@ -40,25 +41,30 @@
   background-color: #ddd;
 }
 
+.admin-btn{
+  min-width: 40%;
+}
+
 .status-active {
-  color: green;
+  border-radius: 10px;
+  color: var(--white);
+  background-color: var(--active-color);
 }
 
 .status-pending {
-  color: orange;
+  border-radius: 10px;
+  color: var(--white);
+  background-color: var(--pending-color);
 }
 
 .status-expired {
-  color: red;
+  border-radius: 10px;
+  color: var(--white);
+  background-color: var(--expire-color);
 }
 
-.role-admin{
+.role-admin {
+  font-size: var(--subtitle-font-size);
   color: #a67c00;
-  text-shadow: 0 0 1px #a67c00,  /* Slight blur */
-               0 0 1px #a67c00, /* Moderate blur */
-               0 0 15px #a67c00, /* Strong blur */
-               0 0 20px #a67c00, /* Stronger blur */
-               0 0 25px #a67c00, /* Even stronger blur */
-               0 0 30px #a67c00, /* Very strong blur */
-               0 0 35px #a67c00; /* Maximum blur */
+  text-shadow: 0 0 2px #000000
 }

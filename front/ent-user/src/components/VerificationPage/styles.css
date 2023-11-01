@@ -1,8 +1,21 @@
 .container {
-  display: "flex";
-  flex-direction: "column";
-  align-items: "center";
-  justify-content: "center";
   text-align: center;
-  height: "100vh";
+  margin-top: 20px;
+  background: linear-gradient(to right, #5b9bd5, #ffc000);
+  height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-header {
+  font-size: 36px;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.thank-you {
+  font-size: 24px;
+  text-shadow: 1px 1px 3px #000000;
 }
