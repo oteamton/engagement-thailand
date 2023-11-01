@@ -96,7 +96,7 @@ const Login: React.FC = () => {
 
     return (
         <div className="wrapper">
-            <div className="login-bg"></div>
+            <div className="dark-bg"></div>
             <div className="login-container">
                 <form className="login-form" onSubmit={handleSubmit}>
                     <InputField

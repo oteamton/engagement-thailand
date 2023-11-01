@@ -16,21 +16,45 @@ const AdminPanel: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState('');
 
-  const activeUser = async (id: number, newStatus: string, newStatusId: number) => {
-    const confirmAction = window.confirm('Are you sure you want to active this user?');
+  const loadAllUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/endpoint/admin/admin_get_users.php');
+
+      if (response.data.status === 'success') {
+        setUsers(response.data.data);
+      } else {
+        console.error("Failed to load users:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error loading users:", error);
+    }
+  };
+
+  const activeUser = async (id: number, newStatus: string, newStatusId: number, email: string) => {
+    let confirmAction;
+
+    switch (newStatusId) {
+      case 3:
+        confirmAction = window.confirm('Are you sure you want to inactive this user?');
+        break;
+      case 2 || 1:
+        confirmAction = window.confirm('Are you sure you want to active this user?');
+        break;
+    }
 
     if (confirmAction) {
       try {
         const response = await axios.post('http://localhost:8000/endpoint/admin/admin_upd_users.php', {
           user_id: id,
-          role_status_id: newStatusId
+          role_status_id: newStatusId,
+          email: email
         });
 
         if (response.data.status === 'success') {
           const updatedUsers = users.map((user) =>
             user.id === id ? { ...user, role_status: newStatus } : user
           );
-          setUsers(updatedUsers);
+          loadAllUsers();
         } else {
           console.error(`Failed to update role to ${newStatus}`, response.data.message);
         }
@@ -71,20 +95,6 @@ const AdminPanel: React.FC = () => {
   };
 
   useEffect(() => {
-    const loadAllUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/endpoint/admin/admin_get_users.php');
-
-        if (response.data.status === 'success') {
-          setUsers(response.data.data);
-        } else {
-          console.error("Failed to load users:", response.data.message);
-        }
-      } catch (error) {
-        console.error("Error loading users:", error);
-      }
-    };
-
     loadAllUsers();
   }, []);
 
@@ -100,10 +110,6 @@ const AdminPanel: React.FC = () => {
       <table className="user-table">
         <thead>
           <tr>
-            {/* <th className="table-header">
-              ID
-              <button className="sort-button" onClick={() => sortUsers('id')}>↑↓</button>
-            </th> */}
             <th className="table-header">
               Username
               <button className="sort-button" onClick={() => sortUsers('username')}>↑↓</button>
@@ -136,19 +142,20 @@ const AdminPanel: React.FC = () => {
               <td className={getStatusClass(user.role_status)}>{user.role_status}</td>
               <td>
                 {user.role_status === "Pending" && (
-                  <button onClick={() => activeUser(user.id, 'Active', 2)}>Set Active</button>
+                  <button className='admin-btn' onClick={() => activeUser(user.id, 'Active', 2, user.email)}>Set Active</button>
                 )}
                 {user.role_status === "Expired" && (
-                  <button onClick={() => activeUser(user.id, 'Active', 2)}>Set Reactive</button>
+                  <button className='admin-btn' onClick={() => activeUser(user.id, 'Active', 2, user.email)}>Set Reactive</button>
                 )}
                 {user.role_status === "Active" && (
-                  <button onClick={() => activeUser(user.id, 'Expired', 3)}>Set Expired</button>
+                  <button className='admin-btn' onClick={() => activeUser(user.id, 'Expired', 3, user.email)}>Set Expired</button>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className='dark-bg'></div>
     </div>
   );
 }
