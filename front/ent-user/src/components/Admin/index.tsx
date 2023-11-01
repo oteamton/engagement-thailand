@@ -31,17 +31,17 @@ const AdminPanel: React.FC = () => {
   };
 
   const activeUser = async (id: number, newStatus: string, newStatusId: number, email: string) => {
-    let confirmAction;
-
+    let AlertMsg;
     switch (newStatusId) {
-      case 3:
-        confirmAction = window.confirm('Are you sure you want to inactive this user?');
+      case 2:
+        AlertMsg = "Are you sure you want to activate this user?";
         break;
-      case 2 || 1:
-        confirmAction = window.confirm('Are you sure you want to active this user?');
+      case 3:
+        AlertMsg = "Are you sure you want to inactivate this user?";
         break;
     }
 
+    const confirmAction = window.confirm(AlertMsg);
     if (confirmAction) {
       try {
         const response = await axios.post('http://localhost:8000/endpoint/admin/admin_upd_users.php', {
