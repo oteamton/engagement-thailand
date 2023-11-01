@@ -38,7 +38,6 @@ This project is designed to manage a user system in a beautiful and user-friendl
 * Next:
     * Add admin to view details
     * Use real data
-    * Add table search function
     * Add close risk function and incident handling
     * Style user page
     * Add notification before membership expires
