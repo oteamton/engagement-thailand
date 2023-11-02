@@ -4,6 +4,7 @@ import { useAuth } from "../../auth/AuthContext";
 import axios from "axios";
 import { validateInputsLogin } from "../../utils/validation";
 import './styles.css';
+import EntLogo from '../../assets/Ent_logo280.png'
 
 interface FormData {
     username: string;
@@ -65,10 +66,10 @@ const Login: React.FC = () => {
 
             const { status, role, message } = response.data;
             login(role);
-            
+
             if (status === 'success') {
-                
-                
+
+
                 if (role === 4) {
                     navigate('/admin');
                 } else {
@@ -97,7 +98,9 @@ const Login: React.FC = () => {
     return (
         <div className="wrapper">
             <div className="dark-bg"></div>
+            <img className="ent_logo" src={EntLogo} alt="ent logo" />
             <div className="login-container">
+                
                 <form className="login-form" onSubmit={handleSubmit}>
                     <InputField
                         type="text"
@@ -129,7 +132,13 @@ const Login: React.FC = () => {
                         {feedback.message}
                     </div>
                 )}
+
+                <div className="no-account">
+                    <p>Don't have an account?</p>
+                    <button className='btn-join'>Join us</button>
+                </div>
             </div>
+
         </div>
 
     );

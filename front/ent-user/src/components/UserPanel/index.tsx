@@ -19,7 +19,7 @@ interface UserPanelProps {
   onToggle: (expanded: boolean) => void;
 }
 
-const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle,  }) => {
+const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle, }) => {
   const navigate = useNavigate();
   const togglePanel = () => {
     onToggle(!isExpanded);
@@ -27,6 +27,10 @@ const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle,  }) => {
 
   const onEdit = () => {
     navigate('/edit-profile', { state: { user } });
+  };
+
+  const upgradeUser = () => {
+    navigate('/upgrade-role', { state: { user } });
   };
 
   return (
@@ -44,7 +48,7 @@ const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle,  }) => {
           </div>
 
           <div className="user-actions">
-            <button className="user-action-button user-action-edit">Join us</button>
+            <button className="user-action-button user-action-edit" onClick={upgradeUser}>Join us</button>
             <button className="user-action-button user-action-edit" onClick={onEdit}>Edit Profile</button>
             {/* <button className="user-action-button user-action-logout" onClick={onLogout}>Log Out</button> */}
             <Logout />

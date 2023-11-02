@@ -6,7 +6,8 @@ import UserPage from './components/UserPage';
 import VerificationPage from './components/VerificationPage';
 import AdminPanel from './components/Admin';
 import Login from './components/Login';
-import UpdateProfile from './components/UserUpdate';
+import UpdateProfile from './components/UserUpdateProfile';
+import JoinUs from './components/UserUpgradeRole';
 import './App.css';
 
 interface ProtectedRouteProps {
@@ -41,6 +42,11 @@ function App() {
             <Route path='/edit-profile' element={
               <ProtectedRoute>
                 <UpdateProfile />
+              </ProtectedRoute>
+            } />
+            <Route path='/upgrade-role' element={
+              <ProtectedRoute>
+                <JoinUs />
               </ProtectedRoute>
             } />
             <Route path='*' element={<Navigate to="/login" replace />} />

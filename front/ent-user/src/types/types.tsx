@@ -27,30 +27,48 @@ export interface ContactDetails {
     lineId: string;
 }
 
-export interface AddressDetails {
-    address: string;
-    city: string;
-    province: string;
-    postcode: string;
-    country: string;
-}
-
-interface ReceiptDetails {
-    name: string;
-    taxNumber: string;
-    address: AddressDetails;
-}
-
-export interface UpgradeRoleProps {
+export interface UpgradeRole {
     orgName: string;
     perName: string;
     roleId: string;
     roleTypeId: string;
 
-    address: AddressDetails;
-    user: Partial<ContactDetails>;
-    contractor: ContactDetails;
-    representative: ContactDetails;
-    alternate: ContactDetails;
-    receipt: ReceiptDetails;
+    user_name: string;
+    user_surname: string;
+    user_email: string;
+    user_phone: string;
+    user_lineId?: string;
+
+    contact_name: string;
+    contact_surname: string;
+    contact_email: string;
+    contact_phone: string;
+    contact_lineId?: string;
+
+    representative_name: string;
+    representative_surname: string;
+    representative_email: string;
+    representative_phone: string;
+    representative_lineId?: string;
+
+    alternate_name: string;
+    alternate_surname: string;
+    alternate_email: string;
+    alternate_phone: string;
+    alternate_lineId?: string;
+
+    receipt_name: string;
+    receipt_taxNumber: string;
+    receipt_address: string;
+    receipt_province: string;
+    receipt_postcode: string;
+    receipt_country: string;
+    receipt_city: string;
+
+    address: string;
+    city: string;
+    province: string;
+    postcode: string;
+    country: string;
+
 }

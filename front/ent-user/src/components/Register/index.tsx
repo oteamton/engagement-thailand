@@ -13,7 +13,7 @@ interface FormData {
     tosAccepted: boolean;
 }
 
-const UserRegistrationForm1: React.FC = () => {
+const UserRegister: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ username: '', name: '', surname: '', email: '', password: '', confirmPassword: '', tosAccepted: false });
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [feedback, setFeedback] = useState({ message: '', type: '' });
@@ -71,7 +71,7 @@ const UserRegistrationForm1: React.FC = () => {
                     {errors.username && <div className="errors">{errors.username}</div>}
                 </div>
 
-                <div className="input-group">
+                {/* <div className="input-group">
                     <input
                         type="text"
                         name="name"
@@ -82,9 +82,9 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     <i className="input-icon fa fa-address-card"></i>
                     {errors.name && <div className="errors">{errors.name}</div>}
-                </div>
+                </div> */}
 
-                <div className="input-group">
+                {/* <div className="input-group">
                     <input
                         type="text"
                         name="surname"
@@ -95,7 +95,7 @@ const UserRegistrationForm1: React.FC = () => {
                     />
                     <i className="input-icon fa fa-address-card"></i>
                     {errors.surname && <div className="errors">{errors.surname}</div>}
-                </div>
+                </div> */}
 
                 <div className="input-group" style={errors.email ? { marginBottom: '25px' } : {}} >
                     <input
@@ -168,4 +168,4 @@ const UserRegistrationForm1: React.FC = () => {
     );
 };
 
-export default UserRegistrationForm1;
+export default UserRegister;
