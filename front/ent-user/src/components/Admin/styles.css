@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   font-family: Arial, sans-serif;
+  color: var(--white);
 }
 
 .search-input {
@@ -16,7 +17,6 @@
   margin: 20px;
   border-collapse: collapse;
   box-sizing: border-box;
-  
 }
 
 .table-header,
@@ -28,8 +28,12 @@
 }
 
 .table-header {
-  background-color: #f2f2f2;
+  background-color: var(--black);
   text-align: center;
+}
+
+.table-header button{
+  margin-left: 1vw;
 }
 
 .sort-button {
@@ -39,9 +43,10 @@
 
 .sort-button:hover {
   background-color: #ddd;
+  color: var(--black);
 }
 
-.admin-btn{
+.admin-btn {
   min-width: 40%;
 }
 
@@ -66,5 +71,5 @@
 .role-admin {
   font-size: var(--subtitle-font-size);
   color: #a67c00;
-  text-shadow: 0 0 2px #000000
+  text-shadow: 0 0 2px #000000;
 }

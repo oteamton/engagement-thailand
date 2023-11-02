@@ -1,8 +1,13 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 98vh;
+}
+
+.ent_logo{
+  margin-bottom: 1.5vh;
 }
 
 .formal-welcome {
@@ -17,7 +22,7 @@
   padding: 20px;
   border-radius: 10px;
   width: 320px;
-  margin: 50px auto;
+  /* margin: auto; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -54,6 +59,10 @@
   cursor: pointer;
 }
 
+.btn-join {
+  background-color: var(--second-color);
+}
+
 .submit-btn:hover {
   background-color: var(--dark-blue);
 }
@@ -65,26 +74,26 @@
   border: none;
   color: var(--primary-blue);
   cursor: pointer;
-  transition: color 0.3s ease;  /* Smooth color transition on hover (optional) */
-  text-decoration: none!important;  /* Remove the default underline */
-  overflow: hidden;  /* Hide any part of the pseudo-element that goes outside the bounds of the link */
+  transition: color 0.3s ease; /* Smooth color transition on hover (optional) */
+  text-decoration: none !important; /* Remove the default underline */
+  overflow: hidden; /* Hide any part of the pseudo-element that goes outside the bounds of the link */
   z-index: 1;
 }
 
 .forgot-password::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 45%;
   left: 50%;
   width: 0;
-  height: 1px;  /* Adjust for desired underline thickness */
-  background-color: var(--primary-blue);  /* Underline color */
-  transition: width 0.3s ease, left 0.3s ease;  /* Smooth expansion effect */
+  height: 1px; /* Adjust for desired underline thickness */
+  background-color: var(--primary-blue); /* Underline color */
+  transition: width 0.3s ease, left 0.3s ease; /* Smooth expansion effect */
   z-index: -1;
 }
 
 .forgot-password:hover {
-  color: var(--dark-blue);  /* Change text color on hover (optional) */
+  color: var(--dark-blue); /* Change text color on hover (optional) */
 }
 
 .forgot-password:hover::before {
@@ -92,3 +101,17 @@
   left: 0;
 }
 
+.no-account {
+  position: absolute;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+  width: inherit;
+  margin-top: 2vh;
+}
+
+.no-account p {
+  user-select: none;
+  color: var(--nature-gray);
+}

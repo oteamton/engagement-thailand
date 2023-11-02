@@ -112,10 +112,6 @@ button:hover {
   text-decoration: none;
 }
 
-.reg-title:hover {
-  text-decoration: underline;
-}
-
 .feedback {
   text-align: start;
   width: 100%;

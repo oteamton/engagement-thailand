@@ -4,8 +4,10 @@
   --primary-blue: #007bff;
   --dark-blue: #0056b3;
   --input-border-color: #ccc;
+  --dark-color: #373737;
   --black: #000;
   --white: #fff;
+  --nature-gray: #c7c8b9;
   --orgcolor: #5b9bd5;
   --percolor: #ffc000;
   --active-color: green;
@@ -14,6 +16,15 @@
   --title-font-size: 2rem;
   --subtitle-font-size: 1.5rem;
   --text-font-size: 1rem;
+
+  /* main color scheme */
+  --primary-color: #4175fc;
+  --second-color: #26265f;
+  --third-color: #101218;
+  --fourth-color: #494b51;
+  --fifth-color: #f3f5f5;
+  --sixth-color: #4b4f58;
+  --seventh-color: #f6f7f8;
 }
 
 .dark-bg {
@@ -22,6 +33,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #373737;
-  z-index: -1;
+  background-color: var(--dark-color);
+  z-index: -2;
 }
