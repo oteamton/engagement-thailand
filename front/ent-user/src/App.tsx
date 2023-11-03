@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import UserRegister from './components/Register';
 import UserPage from './components/UserPage';
@@ -8,6 +8,7 @@ import AdminPanel from './components/Admin';
 import Login from './components/Login';
 import UpdateProfile from './components/UserUpdateProfile';
 import JoinUs from './components/UserUpgradeRole';
+import LoadingWrapper from './utils/LoadingWrapper';
 import './App.css';
 
 interface ProtectedRouteProps {
@@ -25,31 +26,33 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
+            <Route element={<LoadingWrapper />}>
 
-            <Route path='/' element={<UserRegister />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/user' element={
-              <ProtectedRoute>
-                <UserPage />
-              </ProtectedRoute>
-            } />
-            <Route path='/thanks' element={<VerificationPage />} />
-            <Route path='/admin' element={
-              <ProtectedRoute>
-                <AdminPanel />
-              </ProtectedRoute>
-            } />
-            <Route path='/edit-profile' element={
-              <ProtectedRoute>
-                <UpdateProfile />
-              </ProtectedRoute>
-            } />
-            <Route path='/upgrade-role' element={
-              <ProtectedRoute>
-                <JoinUs />
-              </ProtectedRoute>
-            } />
-            <Route path='*' element={<Navigate to="/login" replace />} />
+              <Route path='/' element={<UserRegister />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/user' element={
+                <ProtectedRoute>
+                  <UserPage />
+                </ProtectedRoute>
+              } />
+              <Route path='/thanks' element={<VerificationPage />} />
+              <Route path='/admin' element={
+                <ProtectedRoute>
+                  <AdminPanel />
+                </ProtectedRoute>
+              } />
+              <Route path='/edit-profile' element={
+                <ProtectedRoute>
+                  <UpdateProfile />
+                </ProtectedRoute>
+              } />
+              <Route path='/upgrade-role' element={
+                <ProtectedRoute>
+                  <JoinUs />
+                </ProtectedRoute>
+              } />
+              <Route path='*' element={<Navigate to="/login" replace />} />
+            </Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
