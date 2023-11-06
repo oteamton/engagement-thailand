@@ -12,7 +12,7 @@
 .edit-profile-form {
   display: flex;
   flex-direction: row; /* Horizontal layout */
-  gap: 1vw;
+  gap: 1.2vw;
   justify-content: center;
   margin: auto;
   padding: 20px;

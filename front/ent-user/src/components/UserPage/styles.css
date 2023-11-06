@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   height: 200vh; /* Full viewport height */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .content.blurred {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   filter: blur(5px);
   z-index: -1;
 }
@@ -16,9 +17,8 @@
   margin-top: 20px;
 }
 
-.title{
+.title {
   height: 95vh;
   text-align: center;
   justify-content: center;
-  
 }

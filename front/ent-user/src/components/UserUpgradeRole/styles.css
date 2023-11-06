@@ -1,0 +1,89 @@
+.edit-profile-form {
+  display: flex;
+  flex-direction: row; /* Horizontal layout */
+  gap: 1.2vw;
+  justify-content: center;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.left-panel,
+.center-panel {
+  display: flex;
+  min-width: 200px;
+  height: fit-content;
+}
+
+.input-group-edit {
+  border: 2px solid var(--orgcolor);
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--orgcolor);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+}
+
+.form-action-btns {
+  display: flex;
+  justify-content: center;
+  gap: 0.5vw;
+}
+
+.form-action-btns button {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-action-btns button:hover {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.input-group-personal-info,
+.input-group-org-details,
+.input-group-contact-details,
+.input-group-alternate-details,
+.input-group-representative-details,
+.input-group-receipt-details {
+    background-color: var(--primary-color);
+    padding: 1rem;
+    border-radius: 8px;
+    height: fit-content;
+    cursor: pointer;
+}
+
+.arrow-up::after {
+    content: "\25B2"; /* Up arrow */
+    float: right;
+    margin-top: -5px;
+}
+
+.arrow-down::after {
+    content: "\25BC"; /* Down arrow */
+    float: right;
+    margin-top: -5px;
+}
+
+/* .input-group-personal-info h2 {
+    cursor: pointer;
+} */

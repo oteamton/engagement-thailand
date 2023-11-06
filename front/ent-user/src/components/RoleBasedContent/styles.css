@@ -33,11 +33,13 @@
 #orga {
   border: 1px solid #5b9bd5;
   box-shadow: 5px 5px#5B9BD5;
+  background-color: var(--primary-color);
 }
 
 #pers {
-  border: 1px solid #ffc000;
-  box-shadow: 5px 5px #ffc000;
+  border: 1px solid var(--percolor);
+  box-shadow: 5px 5px #c78900;
+  background-color: var(--percolor);
 }
 
 #orga ul,

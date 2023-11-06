@@ -119,10 +119,12 @@ const UpdateProfile: React.FC = () => {
             <form onSubmit={handleSubmit} className="edit-profile-form">
                 {inputGroups.map((group, index) => renderInputGroup(group, index))}
             </form>
+
             <div className="form-action-btns">
                 <button type="submit">Update Profile</button>
                 <button type="button">Cancel</button>
             </div>
+
             <div className="dark-bg"></div>
         </div>
 

@@ -8,7 +8,7 @@ const LoadingWrapper: React.FC = () => {
 
     useEffect(() => {
         setLoading(true);
-        const timer = setTimeout(() => setLoading(false), 300);
+        const timer = setTimeout(() => setLoading(false), 500);
 
         return () => clearTimeout(timer);
     }, [location]);

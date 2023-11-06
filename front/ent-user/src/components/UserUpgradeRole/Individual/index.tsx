@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { UpgradeRole, CustomFieldData } from "../../types/types";
+import { UpgradeRole, CustomFieldData } from "../../../types/types";
 import './styles.css';
 
 type GroupVisibility = {
-    personalInfo: boolean;
-    orgDetails: boolean;
-    contactDetails: boolean;
+    userInfo: boolean;
+    perInfo: boolean;
     institutionInfo: boolean;
-    alternateDetails: boolean;
-    representativeDetails: boolean;
+    contactDetails: boolean;
     receiptDetails: boolean;
 };
 
-const JoinUs: React.FC = () => {
+const PerForm: React.FC = () => {
     const location = useLocation();
     const userData = location.state?.user;
 
-    const initialFormData: UpgradeRole = {
-        orgName: "",
-        user_name: "",
-        user_surname: "",
+    const initFormData: UpgradeRole = {
+        user_name: userData?.name || "",
+        user_surname: userData?.surname || "",
         user_email: userData?.email || "",
-        user_phone: "",
-        user_lineId: "",
+        user_phone: userData?.phone || "",
+        user_lineId: userData?.lineId || "",
+        address: "",
+        city: "",
+        province: "",
+        postcode: "",
+        country: "",
         contact_name: "",
         contact_surname: "",
         contact_email: "",
@@ -36,16 +38,6 @@ const JoinUs: React.FC = () => {
         institution_province: "",
         institution_postcode: "",
         institution_country: "",
-        representative_name: "",
-        representative_surname: "",
-        representative_email: "",
-        representative_phone: "",
-        representative_lineId: "",
-        alternate_name: "",
-        alternate_surname: "",
-        alternate_email: "",
-        alternate_phone: "",
-        alternate_lineId: "",
         receipt_name: "",
         receipt_taxNumber: "",
         receipt_address: "",
@@ -55,13 +47,7 @@ const JoinUs: React.FC = () => {
         receipt_city: "",
         roleId: "",
         roleTypeId: "",
-        address: "",
-        city: "",
-        province: "",
-        postcode: "",
-        country: ""
-    };
-
+    }
     function pickFields(source: any, fields: string[]): Partial<UpgradeRole> {
         return fields.reduce((result, key) => {
             if (source[key] !== undefined) {
@@ -71,14 +57,13 @@ const JoinUs: React.FC = () => {
         }, {} as Partial<UpgradeRole>);
     }
 
-    const [formData, setFormData] = useState<UpgradeRole>(initialFormData);
+    const [formData, setFormData] = useState<UpgradeRole>(initFormData);
     const [errors, setErrors] = useState<Partial<UpgradeRole>>({});
-    const [groupVisible, setGroupVisible] = useState<Partial<GroupVisibility>>({
-        personalInfo: true,
-        orgDetails: true,
+    const [groupVisible, setGroupVisible] = useState<GroupVisibility>({
+        userInfo: true,
+        perInfo: true,
+        institutionInfo: false,
         contactDetails: false,
-        alternateDetails: false,
-        representativeDetails: false,
         receiptDetails: false,
     });
 
@@ -90,7 +75,7 @@ const JoinUs: React.FC = () => {
     }
 
     const fieldMapping: Record<string, CustomFieldData> = {
-        orgName: { name: "Organization Name", placeholder: "Your organization name" },
+        perName: { name: "Personal Name", placeholder: "Your personal name" },
         user_name: { name: "Name", placeholder: "Your user name" },
         user_surname: { name: "Surname", placeholder: "Your user surname" },
         user_email: { name: "Email", placeholder: "Your user email" },
@@ -106,16 +91,12 @@ const JoinUs: React.FC = () => {
         contact_email: { name: "Contact Email", placeholder: "Contact email" },
         contact_phone: { name: "Contact Phone", placeholder: "Contact phone number" },
         contact_lineId: { name: "Contact Line ID", placeholder: "Contact Line ID" },
-        representative_name: { name: "Representative Name", placeholder: "Representative name" },
-        representative_surname: { name: "Representative Surname", placeholder: "Representative surname" },
-        representative_email: { name: "Representative Email", placeholder: "Representative email" },
-        representative_phone: { name: "Representative Phone", placeholder: "Representative phone number" },
-        representative_lineId: { name: "Representative Line ID", placeholder: "Representative Line ID" },
-        alternate_name: { name: "Alternate Name", placeholder: "Alternate name" },
-        alternate_surname: { name: "Alternate Surname", placeholder: "Alternate surname" },
-        alternate_email: { name: "Alternate Email", placeholder: "Alternate email" },
-        alternate_phone: { name: "Alternate Phone", placeholder: "Alternate phone number" },
-        alternate_lineId: { name: "Alternate Line ID", placeholder: "Alternate Line ID" },
+        institution_name: { name: "Institution Name", placeholder: "Institution name" },
+        institution_addresss: { name: "Institution Address", placeholder: "Institution address" },
+        institution_city: { name: "Institution City", placeholder: "Institution city" },
+        institution_province: { name: "Institution Province", placeholder: "Institution province" },
+        institution_postcode: { name: "Institution Postcode", placeholder: "Institution postcode" },
+        institution_country: { name: "Institution Country", placeholder: "Institution country" },
         receipt_name: { name: "Receipt Name", placeholder: "Receipt name" },
         receipt_taxNumber: { name: "Tax Number", placeholder: "Tax number" },
         receipt_address: { name: "Receipt Address", placeholder: "Receipt address" },
@@ -168,60 +149,27 @@ const JoinUs: React.FC = () => {
             className: "personal-info",
         },
         {
-            fields: ["orgName"],
-            name: "Organization Details",
-            className: "org-details",
-        },
-        {
-            fields: ["contact_name", "contact_surname", "contact_email", "contact_phone"],
+            fields: ["contact_name", "contact_surname", "contact_email", "contact_phone", "contact_lineId"],
             name: "Contact Details",
             className: "contact-details",
         },
         {
-            fields: ["alternate_name", "alternate_surname", "alternate_email", "alternate_phone"],
-            name: "Alternate Details",
-            className: "alternate-details",
+            fields: ["ins"]
         },
         {
-            fields: ["representative_name", "representative_surname", "representative_email", "representative_phone"],
-            name: "Representative Details",
-            className: "representative-details",
-        },
-        {
-            fields: ["receipt_name", "receipt_taxNumber", "receipt_address", "receipt_city", "receipt_province", "receipt_country", "receipt_postcode"],
+            fields: ["receipt_name", "receipt_taxNumber", "receipt_address", "receipt_province", "receipt_postcode", "receipt_city", "receipt_country"],
             name: "Receipt Details",
             className: "receipt-details",
         }
     ]
 
-    const renderInputGroup = (group: any, groupIndex: number) => (
-        <div key={groupIndex} className={`input-group-${group.className}`} onClick={() => toggleGroup(group.name as keyof GroupVisibility)}>
-            <h2>
-                {group.name}
-                <span className={groupVisible[group.name as keyof GroupVisibility] ? "arrow-up" : "arrow-down"}></span>
-            </h2>
-            {groupVisible[group.name as keyof GroupVisibility] && group.fields.map((key: string) => renderInputField(key))}
-        </div>
-    );
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-    };
-
     return (
         <div>
-            <form onSubmit={handleSubmit} className="edit-profile-form">
-                {inputGroups.map((group, index) => renderInputGroup(group, index))}
-            </form>
 
-            <div className="form-action-btns">
-                <button type="submit">Submit</button>
-                <button type="button">Cancel</button>
-            </div>
-
-            <div className="dark-bg"></div>
         </div>
-    );
-};
+    )
+}
 
-export default JoinUs;
+
+
+export default PerForm;

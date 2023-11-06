@@ -50,7 +50,6 @@ const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle, }) => {
           <div className="user-actions">
             <button className="user-action-button user-action-edit" onClick={upgradeUser}>Join us</button>
             <button className="user-action-button user-action-edit" onClick={onEdit}>Edit Profile</button>
-            {/* <button className="user-action-button user-action-logout" onClick={onLogout}>Log Out</button> */}
             <Logout />
           </div>
         </>

@@ -8,7 +8,7 @@ import AdminPanel from './components/Admin';
 import Login from './components/Login';
 import UpdateProfile from './components/UserUpdateProfile';
 import JoinUs from './components/UserUpgradeRole';
-import LoadingWrapper from './utils/LoadingWrapper';
+import Loading from './utils/LoadingWrapper';
 import './App.css';
 
 interface ProtectedRouteProps {
@@ -26,9 +26,9 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route element={<LoadingWrapper />}>
+            <Route element={<Loading />}>
 
-              <Route path='/' element={<UserRegister />} />
+              <Route path='/register' element={<UserRegister />} />
               <Route path='/login' element={<Login />} />
               <Route path='/user' element={
                 <ProtectedRoute>

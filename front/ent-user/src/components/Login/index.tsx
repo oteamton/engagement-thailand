@@ -135,7 +135,7 @@ const Login: React.FC = () => {
 
                 <div className="no-account">
                     <p>Don't have an account?</p>
-                    <button className='btn-join' onClick={() => navigate('/')}>Create Account</button>
+                    <button className='btn-join' onClick={() => navigate('/register')}>Create Account</button>
                 </div>
             </div>
 

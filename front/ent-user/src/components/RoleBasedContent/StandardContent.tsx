@@ -2,33 +2,6 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import './styles.css';
 
-const dashboardMock = {
-    news: [
-        {
-            id: 1,
-            title: "News Item 1",
-            content: "This is the first news item from the admin.",
-        },
-        {
-            id: 2,
-            title: "News Item 2",
-            content: "This is the second news item from the admin.",
-        },
-    ],
-    otherUsers: [
-        {
-            id: 1,
-            name: "User 1",
-            content: "This is the content from User 1.",
-        },
-        {
-            id: 2,
-            name: "User 2",
-            content: "This is the content from User 2.",
-        },
-    ],
-};
-
 const StandardContent: React.FC = () => {
     return (
         <div className="dp">

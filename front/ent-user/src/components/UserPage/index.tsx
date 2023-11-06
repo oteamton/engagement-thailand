@@ -88,6 +88,7 @@ const UserPage: React.FC = () => {
         </div>
         {renderContentByRole(user.role)}
       </div>
+      <div className='dark-bg'></div>
     </div>
   );
 };
