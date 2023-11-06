@@ -21,8 +21,6 @@ if ($sessionId) {
             'status' => 'success',
             'username' => $userData['username'],
             'email' => $userData['email'],
-            'name' => $userData['name'],
-            'surname' => $userData['surname'],
             'role' => $userData['role'],
             'role_status' => $userData['status']
         ]);
@@ -46,7 +44,7 @@ function get_user_data_by_session_id($sessionId)
 {
     global $mysqli;
     $stmt = $mysqli->prepare("
-        SELECT users.username, users.email, users.name, users.surname, users_roles.role_name, users_roles_status.status_name
+        SELECT users.username, users.email, users_roles.role_name, users_roles_status.status_name
         FROM sessions 
         JOIN users ON sessions.user_id = users.id 
         JOIN users_roles ON users.role_id = users_roles.id   -- Join with user_role table
@@ -59,15 +57,13 @@ function get_user_data_by_session_id($sessionId)
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($username, $email, $name, $surname, $role, $role_status);
+        $stmt->bind_result($username, $email, $role, $role_status);
         $stmt->fetch();
         $stmt->close();
 
         return [
             'username' => $username,
             'email' => $email,
-            'name' => $name,
-            'surname' => $surname,
             'role' => $role,
             'status' => $role_status
         ];

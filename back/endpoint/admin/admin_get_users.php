@@ -10,7 +10,7 @@ try {
     global $mysqli;
 
     $stmt = $mysqli->prepare("
-        SELECT users.id, users.username, users.email, users.name, users.surname, users_roles.role_name, users_roles_status.status_name 
+        SELECT users.id, users.username, users.email, users_roles.role_name, users_roles_status.status_name 
         FROM users
         JOIN users_roles ON users.role_id = users_roles.id
         JOIN users_roles_status ON users.role_status_id = users_roles_status.id
@@ -22,14 +22,12 @@ try {
     $users = [];
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $username, $email, $name, $surname, $role_name, $status_name);
+        $stmt->bind_result($id, $username, $email, $role_name, $status_name);
         while ($stmt->fetch()) {
             $users[] = [
                 'id' => $id,
                 'username' => $username,
                 'email' => $email,
-                'name' => $name,
-                'surname' => $surname,
                 'role' => $role_name,
                 'role_status' => $status_name
             ];

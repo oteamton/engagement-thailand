@@ -21,8 +21,6 @@ if (!$data || !isset($data->username, $data->name, $data->surname, $data->email,
 
 // Validate and sanitize user inputs
 $username = filter_var($data->username, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$name = filter_var($data->name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$surname = filter_var($data->surname, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $email = filter_var($data->email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 // Password policy requirements
@@ -42,10 +40,10 @@ $messageBody = "Click on this link to verify your email: " . $verificationLink;
 // Try sending the email first
 if (sendEmail($email, $subject, $messageBody)) {
 
-    $stmt = $mysqli->prepare("INSERT INTO temp_users (username, name, surname, email, password, token) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO temp_users (username, email, password, token) VALUES (?, ?, ?, ?)");
 
     if ($stmt) {
-        $stmt->bind_param("ssssss", $username, $name, $surname, $email, $hashedPassword, $token);
+        $stmt->bind_param("ssssss", $username, $email, $hashedPassword, $token);
 
         if ($stmt->execute()) {
             http_response_code(201); // Created

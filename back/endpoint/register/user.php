@@ -32,8 +32,8 @@ try {
     $user = $result->fetch_assoc();
     $stmt->close();
 
-    $stmt_insert = $mysqli->prepare("INSERT INTO users (username, name, surname, email, password) VALUES (?, ?, ?, ?, ?)");
-    $stmt_insert->bind_param("sssss", $user['username'], $user['name'], $user['surname'], $user['email'], $user['password']);
+    $stmt_insert = $mysqli->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+    $stmt_insert->bind_param("sssss", $user['username'], $user['email'], $user['password']);
     $stmt_insert->execute();
     $stmt_insert->close();
 
