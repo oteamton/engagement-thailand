@@ -4,21 +4,26 @@ import axios from "axios";
 import { UpgradeRole, CustomFieldData } from "../../types/types";
 import './styles.css';
 
+type FormVisibility = {
+    organization: boolean;
+    nidividual: boolean;
+}
+
 type GroupVisibility = {
     personalInfo: boolean;
-    orgDetails: boolean;
-    contactDetails: boolean;
+    orgInfo: boolean;
+    contactInfo: boolean;
     institutionInfo: boolean;
-    alternateDetails: boolean;
-    representativeDetails: boolean;
-    receiptDetails: boolean;
+    alternateInfo: boolean;
+    representativeInfo: boolean;
+    receiptInfo: boolean;
 };
 
 const JoinUs: React.FC = () => {
     const location = useLocation();
     const userData = location.state?.user;
 
-    const initialFormData: UpgradeRole = {
+    const initFormData: UpgradeRole = {
         orgName: "",
         user_name: "",
         user_surname: "",
@@ -61,25 +66,21 @@ const JoinUs: React.FC = () => {
         postcode: "",
         country: ""
     };
-
-    function pickFields(source: any, fields: string[]): Partial<UpgradeRole> {
-        return fields.reduce((result, key) => {
-            if (source[key] !== undefined) {
-                result[key as keyof UpgradeRole] = source[key];
-            }
-            return result;
-        }, {} as Partial<UpgradeRole>);
-    }
-
-    const [formData, setFormData] = useState<UpgradeRole>(initialFormData);
+    const [formData, setFormData] = useState<UpgradeRole>(initFormData);
     const [errors, setErrors] = useState<Partial<UpgradeRole>>({});
+    const [formVisible, setFormVisible] = useState<FormVisibility>({
+        organization: false,
+        nidividual: false
+    })
+
     const [groupVisible, setGroupVisible] = useState<Partial<GroupVisibility>>({
-        personalInfo: true,
-        orgDetails: true,
-        contactDetails: false,
-        alternateDetails: false,
-        representativeDetails: false,
-        receiptDetails: false,
+        personalInfo: false,
+        orgInfo: false,
+        contactInfo: false,
+        institutionInfo: false,
+        alternateInfo: false,
+        representativeInfo: false,
+        receiptInfo: false,
     });
 
     const toggleGroup = (groupName: keyof GroupVisibility) => {
@@ -88,6 +89,13 @@ const JoinUs: React.FC = () => {
             [groupName]: !prevVisible[groupName],
         }));
     }
+
+    const FormDisplay = (formType: keyof FormVisibility) => {
+        setFormVisible((prevFormVisible) => ({
+            ...prevFormVisible,
+            [formType]: !prevFormVisible[formType],
+        }));
+    };
 
     const fieldMapping: Record<string, CustomFieldData> = {
         orgName: { name: "Organization Name", placeholder: "Your organization name" },
@@ -130,7 +138,6 @@ const JoinUs: React.FC = () => {
     const renderInputField = (key: string) => {
         let inputType = "text";
         if (key === "email") inputType = "email";
-        if (key === "password") inputType = "password";
 
         const customField = fieldMapping[key] || [];
         const customName = customField.name || key;
@@ -183,6 +190,11 @@ const JoinUs: React.FC = () => {
             className: "alternate-details",
         },
         {
+            fields: ["institution_name", "institution_addresss", "institution_city", "institution_province", "institution_postcode", "institution_country"],
+            name: "Institution Details",
+            className: "institution-details",
+        },
+        {
             fields: ["representative_name", "representative_surname", "representative_email", "representative_phone"],
             name: "Representative Details",
             className: "representative-details",
@@ -204,12 +216,53 @@ const JoinUs: React.FC = () => {
         </div>
     );
 
+    function pickFields(source: any, fields: string[]): Partial<UpgradeRole> {
+        return fields.reduce((result, key) => {
+            if (source[key] !== undefined) {
+                result[key as keyof UpgradeRole] = source[key];
+            }
+            return result;
+        }, {} as Partial<UpgradeRole>);
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
     };
 
     return (
         <div>
+            <div className="dp">
+                <div className="b-title">
+                    <h1>สิทธิประโยชน์</h1>
+                    <p>มีสิทธิเข้าร่วมประชุมใหญ่เพื่อออกเสียงเลือกตั้งคณะกรรมการบริหารสมาคม (กรณีสมาชิกประเภทองค์กรได้รับ 2 สิทธิ สมาชิกประเภทบุคคลได้รับ 1 สิทธิ) มีสิทธิได้รับเลือกเป็นกรรมการบริหารสมาคมฯ และอนุกรรมการอื่นๆ ของสมาคมมีสิทธิประดับเครื่องหมายและสัญลักษณ์ของ EnT รับข่าวสารความเคลื่อนไหวเกี่ยวกับการทางานเพื่อสังคมของมหาวิทยาลัย</p>
+                </div>
+                <hr />
+                <div className="bc">
+                    <div id="orga">
+                        <button id="org-btn" className="linkBtn">แบบฟอร์มสำหรับองค์กร / สถาบัน</button>
+                        <ul>
+                            <li>การพัฒนางานวิชาการเพื่อสังคมในองค์กรสมาชิก เช่น การให้คาปรึกษา ฝึกอบรม และประสานวิทยากรจากทั้งในและต่างประเทศมาแลกเปลี่ยนความรู้และประสบการณ์กับบุคลากร</li>
+                            <li>การให้คาปรึกษาการเขียนผลงาน และการเสนอผลงานเพื่อความก้าวหน้าทางวิชาชีพของบุคลากรด้วยผลงานเพื่อสังคม</li>
+                            <li>ร่วมเสนอแนะนโยบายและมาตรการต่างๆ เพื่อเสริมสร้าง Engagement ในประเทศไทยและ ASEAN</li>
+                            <li>การส่งบุคลากรเข้าร่วมการประชุมสัมมนาของ EnT ในราคาสมาชิก (ไม่เกิน 2 คน)</li>
+                            <li>การเตรียมความพร้อมของสมาชิกในการสมัครรับการประเมินด้าน Engagement ใน
+                                ระดับนานาชาติและระดับนานาชาติ</li>
+                            <li>การยกย่องและประกาศเกียรติคุณผลงานเพื่อสังคมของสมาชิกและองค์กรอื่นๆ ที่ดาเนินกิจกรรมเพื่อสังคม</li>
+                        </ul>
+                    </div>
+
+                    <div id="pers">
+                        <button id="per-btn" className="linkBtn">แบบฟอร์มสำหรับบุคคล</button>
+                        <ul>
+                            <li>การรับรองการใช้ประโยชน์ของผลงานวิชาการเพื่อสังคม (ในกรณีที่ผลงานนั้นๆ ได้รับการพิจารณาคัดเลือกเป็นกรณีศึกษาของ EnT)</li>
+                            <li>การรับรองการใช้ประโยชน์ของผลงานวิชาการเพื่อสังคม (ในกรณีที่ผลงานนั้นๆ ได้รับการพิจารณาคัดเลือกเป็นกรณีศึกษาของ EnT)</li>
+                            <li>การรับรองการใช้ประโยชน์ของผลงานวิชาการเพื่อสังคม (ในกรณีที่ผลงานนั้นๆ ได้รับการพิจารณาคัดเลือกเป็นกรณีศึกษาของ EnT)</li>
+                            <li>ข้าร่วมการประชุมสัมมนาของ EnT ในอัตราสมาชิก ได้รับการสนับสนุนจาก EnT ในการไปเสนอผลงานวิชาการเพื่อสังคมในต่างประเทศ</li>
+                            <li>ร่วมเป็นคณะผู้เชี่ยวชาญ ในประเด็นที่เกี่ยวข้อง</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <form onSubmit={handleSubmit} className="edit-profile-form">
                 {inputGroups.map((group, index) => renderInputGroup(group, index))}
             </form>
