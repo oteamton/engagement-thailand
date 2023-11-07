@@ -6,7 +6,7 @@ import './styles.css';
 
 type FormVisibility = {
     organization: boolean;
-    nidividual: boolean;
+    individual: boolean;
 }
 
 type GroupVisibility = {
@@ -70,7 +70,7 @@ const JoinUs: React.FC = () => {
     const [errors, setErrors] = useState<Partial<UpgradeRole>>({});
     const [formVisible, setFormVisible] = useState<FormVisibility>({
         organization: false,
-        nidividual: false
+        individual: false
     })
 
     const [groupVisible, setGroupVisible] = useState<Partial<GroupVisibility>>({

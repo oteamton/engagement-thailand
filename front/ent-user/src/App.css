@@ -1,5 +1,10 @@
 @import "~font-awesome/css/font-awesome.min.css";
 
+@font-face {
+  font-family: "Kanit";
+  src: url("./assets/fonts/Kanit/Kanit-Regular.ttf") format("truetype");
+}
+
 :root {
   --primary-blue: #007bff;
   --dark-blue: #0056b3;
@@ -25,6 +30,11 @@
   --fifth-color: #f3f5f5;
   --sixth-color: #4b4f58;
   --seventh-color: #f6f7f8;
+}
+
+html,
+button {
+  font-family: "Kanit";
 }
 
 .dark-bg {

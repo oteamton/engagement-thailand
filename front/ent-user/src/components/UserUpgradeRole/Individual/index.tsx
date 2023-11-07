@@ -154,9 +154,6 @@ const PerForm: React.FC = () => {
             className: "contact-details",
         },
         {
-            fields: ["ins"]
-        },
-        {
             fields: ["receipt_name", "receipt_taxNumber", "receipt_address", "receipt_province", "receipt_postcode", "receipt_city", "receipt_country"],
             name: "Receipt Details",
             className: "receipt-details",
