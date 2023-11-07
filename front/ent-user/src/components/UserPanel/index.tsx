@@ -33,6 +33,17 @@ const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle, }) => {
     navigate('/upgrade-role', { state: { user } });
   };
 
+  function getStatusClass(role_status: string) {
+    switch (role_status) {
+      case 'Pending':
+        return 'sta-pending';
+      case 'Active':
+        return 'sta-active';
+      case 'Expired':
+        return 'sta-expired';
+    }
+  }
+
   return (
     <div
       className={`user-panel ${isExpanded ? 'expanded' : 'compact'}`}
@@ -44,19 +55,19 @@ const UserPanel: FC<UserPanelProps> = ({ user, isExpanded, onToggle, }) => {
           <div className="user-info">
             <p className="user-info-item"><strong>Username:</strong> {user.username}</p>
             <p className="user-info-item"><strong>Email:</strong> {user.email}</p>
-            <p className="user-info-item"><strong>Role:</strong> {user.role} <strong>Status:</strong> {user.role_status}</p>
+            <p className="user-info-item"><strong>Role:</strong> {user.role} <strong className='status'>Status:</strong><p className={`${getStatusClass(user.role_status)}`}>{user.role_status}</p></p>
           </div>
 
           <div className="user-actions">
-            <button className="user-action-button user-action-edit" onClick={upgradeUser}>Join us</button>
             <button className="user-action-button user-action-edit" onClick={onEdit}>Edit Profile</button>
+            <button className="user-action-button user-action-edit" onClick={upgradeUser}>Join us</button>
             <Logout />
           </div>
         </>
       ) : (
         <div className="compact-info">
-          <span className="compact-username">Username: {user.username}</span>
-          <span className="compact-email">{user.role}</span>
+          <p className="compact-username">Username: <span>{user.username}</span></p>
+          <p className="compact-email">Member type: <span>{user.role}</span></p>
         </div>
       )}
     </div >

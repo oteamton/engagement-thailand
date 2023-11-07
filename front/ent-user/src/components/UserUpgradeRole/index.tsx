@@ -19,6 +19,49 @@ type GroupVisibility = {
     receiptInfo: boolean;
 };
 
+const inputGroups = [
+    {
+        fields: ["user_name", "user_surname", "user_email", "user_phone", "user_address", "user_city", "user_province", "user_country", "user_postcode"],
+        name: "Personal Information",
+        className: "personal-info",
+    },
+    {
+        fields: ["orgName"],
+        name: "Organization Info",
+        className: "org-Info",
+    },
+    {
+        fields: ["contact_name", "contact_surname", "contact_email", "contact_phone"],
+        name: "Contact Info",
+        className: "contact-Info",
+    },
+    {
+        fields: ["alternate_name", "alternate_surname", "alternate_email", "alternate_phone"],
+        name: "Alternate Info",
+        className: "alternate-Info",
+    },
+    {
+        fields: ["institution_name", "institution_addresss", "institution_city", "institution_province", "institution_postcode", "institution_country"],
+        name: "Institution Info",
+        className: "institution-Info",
+    },
+    {
+        fields: ["representative_name", "representative_surname", "representative_email", "representative_phone"],
+        name: "Representative Info",
+        className: "representative-Info",
+    },
+    {
+        fields: ["receipt_name", "receipt_taxNumber", "receipt_address", "receipt_city", "receipt_province", "receipt_country", "receipt_postcode"],
+        name: "Receipt Info",
+        className: "receipt-Info",
+    }
+]
+
+// List of groups that should be excluded from the form organization
+const exlucdedGroupsOrg = ["Institution Info",]
+// List of groups that should be excluded from the form individual
+const excludedGroupsInd = ["Organization Info", "Representative Info", "Alternate Info", "Contact Info",]
+
 const JoinUs: React.FC = () => {
     const location = useLocation();
     const userData = location.state?.user;
@@ -70,8 +113,12 @@ const JoinUs: React.FC = () => {
     const [errors, setErrors] = useState<Partial<UpgradeRole>>({});
     const [formVisible, setFormVisible] = useState<FormVisibility>({
         organization: false,
-        individual: false
-    })
+        individual: false,
+    });
+    const [formGroups, setFormGroups] = useState<{ [formType: string]: string[] }>({
+        organization: inputGroups.filter((group) => !exlucdedGroupsOrg.includes(group.name)).map((group) => group.name),
+        individual: inputGroups.filter((group) => !excludedGroupsInd.includes(group.name)).map((group) => group.name),
+    });
 
     const [groupVisible, setGroupVisible] = useState<Partial<GroupVisibility>>({
         personalInfo: false,
@@ -83,19 +130,13 @@ const JoinUs: React.FC = () => {
         receiptInfo: false,
     });
 
+    // Toggle collapse and expand 
     const toggleGroup = (groupName: keyof GroupVisibility) => {
         setGroupVisible((prevVisible) => ({
             ...prevVisible,
             [groupName]: !prevVisible[groupName],
         }));
     }
-
-    const FormDisplay = (formType: keyof FormVisibility) => {
-        setFormVisible((prevFormVisible) => ({
-            ...prevFormVisible,
-            [formType]: !prevFormVisible[formType],
-        }));
-    };
 
     const fieldMapping: Record<string, CustomFieldData> = {
         orgName: { name: "Organization Name", placeholder: "Your organization name" },
@@ -114,6 +155,12 @@ const JoinUs: React.FC = () => {
         contact_email: { name: "Contact Email", placeholder: "Contact email" },
         contact_phone: { name: "Contact Phone", placeholder: "Contact phone number" },
         contact_lineId: { name: "Contact Line ID", placeholder: "Contact Line ID" },
+        institution_name: { name: "Institution Name", placeholder: "Institution name" },
+        institution_addresss: { name: "Institution Address", placeholder: "Institution address" },
+        institution_city: { name: "Institution City", placeholder: "Institution city" },
+        institution_province: { name: "Institution Province", placeholder: "Institution province" },
+        institution_postcode: { name: "Institution Postcode", placeholder: "Institution postcode" },
+        institution_country: { name: "Institution Country", placeholder: "Institution country" },
         representative_name: { name: "Representative Name", placeholder: "Representative name" },
         representative_surname: { name: "Representative Surname", placeholder: "Representative surname" },
         representative_email: { name: "Representative Email", placeholder: "Representative email" },
@@ -168,53 +215,26 @@ const JoinUs: React.FC = () => {
         });
     };
 
-    const inputGroups = [
-        {
-            fields: ["user_name", "user_surname", "user_email", "user_phone", "user_address", "user_city", "user_province", "user_country", "user_postcode"],
-            name: "Personal Information",
-            className: "personal-info",
-        },
-        {
-            fields: ["orgName"],
-            name: "Organization Details",
-            className: "org-details",
-        },
-        {
-            fields: ["contact_name", "contact_surname", "contact_email", "contact_phone"],
-            name: "Contact Details",
-            className: "contact-details",
-        },
-        {
-            fields: ["alternate_name", "alternate_surname", "alternate_email", "alternate_phone"],
-            name: "Alternate Details",
-            className: "alternate-details",
-        },
-        {
-            fields: ["institution_name", "institution_addresss", "institution_city", "institution_province", "institution_postcode", "institution_country"],
-            name: "Institution Details",
-            className: "institution-details",
-        },
-        {
-            fields: ["representative_name", "representative_surname", "representative_email", "representative_phone"],
-            name: "Representative Details",
-            className: "representative-details",
-        },
-        {
-            fields: ["receipt_name", "receipt_taxNumber", "receipt_address", "receipt_city", "receipt_province", "receipt_country", "receipt_postcode"],
-            name: "Receipt Details",
-            className: "receipt-details",
-        }
-    ]
+    const renderInputGroup = (group: any, groupIndex: number) => {
+        // Check if the current group should be displayed based on selected
+        const selectedFormType = formVisible.organization ? "organization" : "individual";
+        const FormDisplay = formGroups[selectedFormType].includes(group.name);
 
-    const renderInputGroup = (group: any, groupIndex: number) => (
-        <div key={groupIndex} className={`input-group-${group.className}`} onClick={() => toggleGroup(group.name as keyof GroupVisibility)}>
-            <h2>
-                {group.name}
-                <span className={groupVisible[group.name as keyof GroupVisibility] ? "arrow-up" : "arrow-down"}></span>
-            </h2>
-            {groupVisible[group.name as keyof GroupVisibility] && group.fields.map((key: string) => renderInputField(key))}
-        </div>
-    );
+        return (
+            FormDisplay && (
+                <div key={groupIndex} className={`input-group-${group.className}`} >
+                    <h2 onClick={() => toggleGroup(group.name as keyof GroupVisibility)}>
+                        {group.name}
+                        <span className={groupVisible[group.name as keyof GroupVisibility] ? "arrow-up" : "arrow-down"}></span>
+                    </h2>
+                    <div className={`input-group-content ${groupVisible[group.name as keyof GroupVisibility] ? "open" : ""}`}>
+                    {group.fields.map((key: string) => renderInputField(key))}
+                    </div>
+                    
+                </div>
+            )
+        );
+    };
 
     function pickFields(source: any, fields: string[]): Partial<UpgradeRole> {
         return fields.reduce((result, key) => {
@@ -239,7 +259,7 @@ const JoinUs: React.FC = () => {
                 <hr />
                 <div className="bc">
                     <div id="orga">
-                        <button id="org-btn" className="linkBtn">แบบฟอร์มสำหรับองค์กร / สถาบัน</button>
+                        <button id="org-btn" className="linkBtn" onClick={() => setFormVisible({ organization: true, individual: false })}>แบบฟอร์มสำหรับองค์กร / สถาบัน</button>
                         <ul>
                             <li>การพัฒนางานวิชาการเพื่อสังคมในองค์กรสมาชิก เช่น การให้คาปรึกษา ฝึกอบรม และประสานวิทยากรจากทั้งในและต่างประเทศมาแลกเปลี่ยนความรู้และประสบการณ์กับบุคลากร</li>
                             <li>การให้คาปรึกษาการเขียนผลงาน และการเสนอผลงานเพื่อความก้าวหน้าทางวิชาชีพของบุคลากรด้วยผลงานเพื่อสังคม</li>
@@ -252,7 +272,7 @@ const JoinUs: React.FC = () => {
                     </div>
 
                     <div id="pers">
-                        <button id="per-btn" className="linkBtn">แบบฟอร์มสำหรับบุคคล</button>
+                        <button id="per-btn" className="linkBtn" onClick={() => setFormVisible({ organization: false, individual: true })}>แบบฟอร์มสำหรับบุคคล</button>
                         <ul>
                             <li>การรับรองการใช้ประโยชน์ของผลงานวิชาการเพื่อสังคม (ในกรณีที่ผลงานนั้นๆ ได้รับการพิจารณาคัดเลือกเป็นกรณีศึกษาของ EnT)</li>
                             <li>การรับรองการใช้ประโยชน์ของผลงานวิชาการเพื่อสังคม (ในกรณีที่ผลงานนั้นๆ ได้รับการพิจารณาคัดเลือกเป็นกรณีศึกษาของ EnT)</li>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import Logout from '../../utils/logout';
-import IndividualContent from '../RoleBasedContent/IndividualContent';
-import OrganizationContent from '../RoleBasedContent/OrganizationContent';
-import StandardContent from '../RoleBasedContent/StandardContent';
+// import Logout from '../../utils/logout';
+// import IndividualContent from '../RoleBasedContent/IndividualContent';
+// import OrganizationContent from '../RoleBasedContent/OrganizationContent';
+// import StandardContent from '../RoleBasedContent/StandardContent';
 import UserPanel from '../UserPanel';
-import './styles.css'
+import EntLogo from '../../assets/Ent_logo280.png';
+import './styles.css';
 
 const UserPage: React.FC = () => {
   const [user, setUser] = useState<any | null>(null);
@@ -27,7 +28,7 @@ const UserPage: React.FC = () => {
       setUser(response.data);
       setLoading(false);
     } catch (error: any) {
-      console.error('Error fetching user data:', error);
+      // console.error('Error fetching user data:', error);
       setError(error.message);
       setLoading(false);
     }
@@ -64,29 +65,38 @@ const UserPage: React.FC = () => {
     return <div>No user data found.</div>;
   }
 
-  const renderContentByRole = (role: string) => {
-    switch (role) {
-      case 'Standard':
-        return <StandardContent />;
-      case 'Organization':
-        return <OrganizationContent />;
-      case 'Individual':
-        return <IndividualContent />;
-    }
-  };
+  // const renderContentByRole = (role: string) => {
+  //   switch (role) {
+  //     case 'Standard':
+  //       return <StandardContent />;
+  //     case 'Organization':
+  //       return <OrganizationContent />;
+  //     case 'Individual':
+  //       return <IndividualContent />;
+  //   }
+  // };
 
   return (
     <div className='page-container'>
       <div ref={panelRef} onClick={togglePanel}>
         <UserPanel user={user} isExpanded={isPanelExpanded}
-          onToggle={setPanelExpanded}/>
+          onToggle={setPanelExpanded} />
       </div>
 
       <div className={`content ${isPanelExpanded ? 'blurred' : ''}`}>
         <div className='title'>
           <h1>Welcome to Engagement Thailand</h1>
         </div>
-        {renderContentByRole(user.role)}
+
+        <div className="holding-container">
+          <img className="ent_logo" src={EntLogo} alt="ent logo" />
+        </div>
+
+        <div className="soon">
+          <h2>More content coming soon . . .</h2>
+        </div>
+
+        {/* {renderContentByRole(user.role)} */}
       </div>
       <div className='dark-bg'></div>
     </div>

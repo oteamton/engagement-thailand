@@ -365,3 +365,4 @@ FodyWeavers.xsd
 back/.env
 db/ent_db.zip
 front/ent-user/build.zip
+front/ent-user/src/assets/fonts/Kanit/OFL.txt
