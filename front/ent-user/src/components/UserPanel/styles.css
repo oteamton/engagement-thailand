@@ -1,11 +1,12 @@
 .user-panel {
   position: absolute; /* or fixed, depending on your layout */
-  width: 100%;
   right: 0;
   border: 2px solid #007bff;
   border-radius: 10px;
   padding: 16px;
   width: 300px;
+  height: 320px;
+  margin-right: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #007bff;
   font-family: "Kanit";
@@ -20,9 +21,10 @@
 }
 
 .user-panel.compact {
+  position: fixed;
   border-radius: 10px;
   width: 200px;
-  height: 100px;
+  height: 70px;
   padding: 0;
 }
 
@@ -32,7 +34,7 @@
   justify-content: start;
   align-items: start;
   padding: 10px;
-  height: 100%;
+  height: fit-content;
 }
 
 .compact-username,
@@ -43,7 +45,7 @@
 }
 
 .user-panel-title {
-  margin-bottom: 16px;
+  margin: auto;
   color: #ffffff;
 }
 
@@ -88,4 +90,13 @@
 
 .user-action-logout:hover {
   background-color: #c82333;
+}
+
+.status{
+  padding-left: 1rem;
+/* color: var(--black); */
+}
+
+.sta-active{
+  color: var(--active-color);
 }

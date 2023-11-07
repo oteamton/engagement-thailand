@@ -46,3 +46,12 @@ button {
   background-color: var(--dark-color);
   z-index: -2;
 }
+
+.logout{
+  align-self: self-end;
+}
+
+#logout-btn{
+  background-color: var(--expire-color);
+}
+

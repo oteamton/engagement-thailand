@@ -4,6 +4,7 @@
   gap: 1.2vw;
   justify-content: center;
   margin: auto;
+  margin-bottom: 40px;
   padding: 20px;
   border-radius: 8px;
 }
@@ -21,6 +22,16 @@
   padding: 15px;
   border-radius: 8px;
   background-color: var(--orgcolor);
+}
+
+.input-group-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease; /* Adjust the duration and timing function as needed */
+}
+
+.input-group-content.open {
+  max-height: 100vh; /* Set a value that's greater than the potential height of your content */
 }
 
 .form-group {
@@ -42,16 +53,20 @@
 .form-action-btns {
   display: flex;
   justify-content: center;
-  gap: 0.5vw;
+  position: inherit;
+  /* padding: 20px 0 0 20px; */
+  margin-bottom: 40px;
+  gap: 1vw;
 }
 
 .form-action-btns button {
   background-color: var(--dark-blue);
   color: var(--white);
-  padding: 10px 15px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: var(--text-font-size);
 }
 
 .form-action-btns button:hover {
@@ -60,30 +75,49 @@
 }
 
 .input-group-personal-info,
-.input-group-org-details,
-.input-group-contact-details,
-.input-group-alternate-details,
-.input-group-representative-details,
-.input-group-receipt-details {
-    background-color: var(--primary-color);
-    padding: 1rem;
-    border-radius: 8px;
-    height: fit-content;
-    cursor: pointer;
+.input-group-org-Info,
+.input-group-contact-Info,
+.input-group-institution-Info,
+.input-group-alternate-Info,
+.input-group-representative-Info,
+.input-group-receipt-Info {
+  background-color: var(--primary-color);
+  padding: 0 1rem 0 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px var(--black);
+  height: fit-content;
 }
 
 .arrow-up::after {
-    content: "\25B2"; /* Up arrow */
-    float: right;
-    margin-top: -5px;
+  content: "\25B2"; /* Up arrow */
+  float: right;
+  margin-left: 5px;
 }
 
 .arrow-down::after {
-    content: "\25BC"; /* Down arrow */
-    float: right;
-    margin-top: -5px;
+  content: "\25BC"; /* Down arrow */
+  float: right;
+  margin-left: 5px;
 }
 
-/* .input-group-personal-info h2 {
-    cursor: pointer;
-} */
+.input-group-personal-info h2,
+.input-group-personal-info h2,
+.input-group-org-Info h2,
+.input-group-contact-Info h2,
+.input-group-institution-Info h2,
+.input-group-alternate-Info h2,
+.input-group-receipt-Info h2,
+.input-group-representative-Info h2 {
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.input-group-personal-info h2:hover,
+.input-group-org-Info h2:hover,
+.input-group-contact-Info h2:hover,
+.input-group-institution-Info h2:hover,
+.input-group-alternate-Info h2:hover,
+.input-group-receipt-Info h2:hover,
+.input-group-representative-Info h2:hover {
+  color: var(--white);
+}

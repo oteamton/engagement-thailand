@@ -5,7 +5,9 @@
   align-items: flex-start;
   flex-wrap: wrap; /* Wrap items to the next line if the screen is narrow */
   font-family: "Kanit";
+  font-size: var(--text-font-size);
   text-align: center;
+  color: var(--white);
 }
 
 .bc {
