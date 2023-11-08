@@ -10,6 +10,7 @@ const UpdateProfile: React.FC = () => {
 
     // Initial state that matches the form
     const defaultFormData: FormData = {
+        username: userData?.username,
         name: userData?.name || "",
         surname: userData?.surname || "",
         email: userData?.email || "",
@@ -34,7 +35,7 @@ const UpdateProfile: React.FC = () => {
     }
 
     const initialFormData = userData
-        ? { ...defaultFormData, ...pickFields(userData, ['name', 'email', 'phone', 'address']) }
+        ? { ...defaultFormData, ...pickFields(userData, ['username', 'name', 'email', 'phone', 'address']) }
         : defaultFormData;
 
     const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -59,7 +60,6 @@ const UpdateProfile: React.FC = () => {
     const renderInputField = (key: string) => {
         let inputType = "text";
         if (key === "email") inputType = "email";
-        if (key === "password") inputType = "password";
 
         const customField = fieldMapping[key] || [];
         const customName = customField.name || key;
@@ -96,16 +96,17 @@ const UpdateProfile: React.FC = () => {
             name: "Personal Information",
             className: "personal-info",
         },
-        {
-            fields: ["organization_name", "receipt_name", "tax_number", "receipt_address"],
-            name: "Organization Details",
-            className: "org-details",
-        },
+        // {
+        //     fields: ["organization_name", "receipt_name", "tax_number", "receipt_address"],
+        //     name: "Organization Details",
+        //     className: "org-details",
+        // },
     ]
 
     const renderInputGroup = (group: any, groupIndex: number) => (
         <div key={groupIndex} className={`input-group-${group.className}`}>
             <h2>{group.name}</h2>
+            {group.className === 'personal-info' && <h3>{userData.username}</h3>}
             {group.fields.map((key: string) => renderInputField(key))}
         </div>
     );
@@ -122,7 +123,7 @@ const UpdateProfile: React.FC = () => {
 
             <div className="form-action-btns">
                 <button type="submit">Update Profile</button>
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => window.history.back()}>Cancel</button>
             </div>
 
             <div className="dark-bg"></div>

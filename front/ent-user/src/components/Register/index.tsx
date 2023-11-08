@@ -73,32 +73,6 @@ const UserRegister: React.FC = () => {
                         {errors.username && <div className="errors">{errors.username}</div>}
                     </div>
 
-                    {/* <div className="input-group">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className={errors.name ? 'invalid' : ''}
-                    />
-                    <i className="input-icon fa fa-address-card"></i>
-                    {errors.name && <div className="errors">{errors.name}</div>}
-                </div> */}
-
-                    {/* <div className="input-group">
-                    <input
-                        type="text"
-                        name="surname"
-                        placeholder="Surname"
-                        value={formData.surname}
-                        onChange={handleInputChange}
-                        className={errors.surname ? 'invalid' : ''}
-                    />
-                    <i className="input-icon fa fa-address-card"></i>
-                    {errors.surname && <div className="errors">{errors.surname}</div>}
-                </div> */}
-
                     <div className="input-group" style={errors.email ? { marginBottom: '25px' } : {}} >
                         <input
                             type="email"

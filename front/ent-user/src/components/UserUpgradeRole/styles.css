@@ -1,3 +1,138 @@
+/* Select from to register */
+.b-title {
+  display: flex;
+  padding: 0 10rem 0 10rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Wrap items to the next line if the screen is narrow */
+  font-family: "Kanit";
+  text-align: center;
+  color: var(--white);
+}
+
+.b-title h1 {
+  user-select: none;
+  font-size: var(--title-font-size);
+}
+
+.b-title p {
+  user-select: none;
+  font-size: var(--subtitle-font-size);
+}
+
+.bc {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap; /* Wrap items to the next line if the screen is narrow */
+  font-family: "Kanit";
+  margin-bottom: 40px;
+}
+
+#orga,
+#pers {
+  flex: 1;
+  padding: 20px;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column; /* Stack button and text vertically */
+  transition: transform 500ms;
+}
+
+#orga {
+  border: 1px solid #5b9bd5;
+  box-shadow: 5px 5px#5B9BD5;
+  background-color: var(--white);
+}
+
+#pers {
+  border: 1px solid var(--percolor);
+  box-shadow: 5px 5px #c78900;
+  background-color: var(--white);
+}
+
+#orga ul,
+#pers ul {
+  padding-inline-start: 40px;
+  padding-inline-end: 20px;
+}
+
+#orga:hover,
+#pers:hover {
+  transform: scale(1.05);
+}
+
+#orga .linkBtn,
+#pers .linkBtn {
+  display: block;
+  margin: 0 auto; /* Center the button horizontally */
+}
+
+#orga,
+#pers p {
+  text-align: start;
+}
+
+.linkBtn {
+  display: inline-block;
+  padding: 10px 20px;
+  min-width: 10rem;
+  background-color: #007bff;
+  color: white;
+  font-size: var(--text-font-size);
+  text-decoration: none !important;
+  text-align: center;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 5px 5px#5B9BD5;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.linkBtn:hover {
+  background-color: #0056b3;
+}
+
+li {
+  margin-bottom: 0.2rem;
+  user-select: none;
+}
+
+#per-btn {
+  background-color: #ffc000;
+  box-shadow: 5px 5px#c78900;
+}
+
+#per-btn:hover {
+  background-color: #e5a900; /* This is a slightly darker shade. Adjust as needed. */
+}
+
+hr {
+  width: 70%;
+  height: 5px;
+  background-color: #54595f;
+  border: none;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+}
+
+/* Add responsive styles for smaller screens if necessary */
+@media (max-width: 768px) {
+  #orga,
+  #pers {
+    max-width: 100%; /* Allow boxes to take full width on smaller screens */
+    min-height: 100%;
+  }
+  .b-title {
+    display: flex;
+    padding: 0 1rem 0 1rem;
+  }
+}
+
+/* Input fields */
 .edit-profile-form {
   display: flex;
   flex-direction: row; /* Horizontal layout */
@@ -81,17 +216,26 @@
 .input-group-alternate-Info,
 .input-group-representative-Info,
 .input-group-receipt-Info {
-  background-color: var(--primary-color);
+  background-color: var(--orgcolor);
   padding: 0 1rem 0 1rem;
   border-radius: 8px;
   box-shadow: 0 0 10px var(--black);
   height: fit-content;
+}
+.input-group-personal-info,
+.input-group-receipt-Info {
+  background-color: var(--primary-color);
+}
+
+.input-group-institution-Info {
+  background-color: var(--percolor);
 }
 
 .arrow-up::after {
   content: "\25B2"; /* Up arrow */
   float: right;
   margin-left: 5px;
+  color: var(--white);
 }
 
 .arrow-down::after {
@@ -120,4 +264,39 @@
 .input-group-receipt-Info h2:hover,
 .input-group-representative-Info h2:hover {
   color: var(--white);
+}
+
+.input-group-personal-info input,
+.input-group-org-Info input,
+.input-group-contact-Info input,
+.input-group-institution-Info input,
+.input-group-alternate-Info input,
+.input-group-receipt-Info input,
+.input-group-representative-Info input {
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  outline: none;
+  transition: border 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-group-institution-Info {
+  border: 1px solid var(--percolor);
+}
+
+.input-group-institution-Info input:hover{
+  border: 1px solid #c78900;
+}
+
+.input-group-personal-info input:hover,
+.input-group-org-Info input:hover,
+.input-group-contact-Info input:hover,
+.input-group-alternate-Info input:hover,
+.input-group-receipt-Info input:hover,
+.input-group-representative-Info input:hover {
+  border: 1px solid var(--primary-blue);
+}
+
+.errors-msg {
+  color: red;
 }

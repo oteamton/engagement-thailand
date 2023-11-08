@@ -6,6 +6,7 @@ import axios from 'axios';
 // import StandardContent from '../RoleBasedContent/StandardContent';
 import UserPanel from '../UserPanel';
 import EntLogo from '../../assets/Ent_logo280.png';
+import LoadingWrapper from '../../utils/LoadingWrapper';
 import './styles.css';
 
 const UserPage: React.FC = () => {
@@ -54,11 +55,7 @@ const UserPage: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
+    return <LoadingWrapper />;
   }
 
   if (!user) {

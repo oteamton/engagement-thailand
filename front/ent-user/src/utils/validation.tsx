@@ -1,3 +1,5 @@
+import { UpgradeRole } from "../types/types";
+
 interface FormData {
     username: string;
     email: string;
@@ -55,3 +57,17 @@ export const validateInputsLogin = (loginData: LoginFormData): LoginFormErrors =
 
     return errors;
 };
+
+export const validateUpgradeRole = (upgradeRole: UpgradeRole): { isValid: boolean, errors: Record<string, string> } => {
+    const errors: Record<string, string> = {};
+
+    for (const key in upgradeRole) {
+        if ((upgradeRole as Record<string, string>)[key] === undefined || (upgradeRole as Record<string, string>)[key] === "") {
+            errors[key] = "This field is required";
+        }
+    }
+
+    const isValid = Object.keys(errors).length === 0;
+
+    return { isValid, errors };
+}

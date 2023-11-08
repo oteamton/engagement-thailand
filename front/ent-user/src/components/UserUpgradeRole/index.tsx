@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { UpgradeRole, CustomFieldData } from "../../types/types";
+import { validateUpgradeRole } from "../../utils/validation";
 import './styles.css';
 
 type FormVisibility = {
@@ -186,11 +187,12 @@ const JoinUs: React.FC = () => {
         let inputType = "text";
         if (key === "email") inputType = "email";
 
-        const customField = fieldMapping[key] || [];
+        const customField = fieldMapping[key] || {};
         const customName = customField.name || key;
         const customPlaceholder = customField.placeholder;
 
-        const fieldError = errors[key as keyof UpgradeRole];
+        const fieldValue = (formData as any)[key];
+        const fieldError = fieldValue === undefined || fieldValue === "";
         const inputClassName = fieldError ? 'invalid' : '';
 
         return (
@@ -204,6 +206,7 @@ const JoinUs: React.FC = () => {
                     placeholder={customPlaceholder}
                     className={inputClassName}
                 />
+                {fieldError && <div className="errors-msg">This field is required</div>}
             </div>
         );
     };
@@ -228,9 +231,9 @@ const JoinUs: React.FC = () => {
                         <span className={groupVisible[group.name as keyof GroupVisibility] ? "arrow-up" : "arrow-down"}></span>
                     </h2>
                     <div className={`input-group-content ${groupVisible[group.name as keyof GroupVisibility] ? "open" : ""}`}>
-                    {group.fields.map((key: string) => renderInputField(key))}
+                        {group.fields.map((key: string) => renderInputField(key))}
                     </div>
-                    
+
                 </div>
             )
         );
@@ -247,6 +250,18 @@ const JoinUs: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const validationResults = validateUpgradeRole(formData);
+        const { isValid, errors } = validationResults;
+        console.log(validationResults);
+        setErrors(errors);
+        console.log(errors);
+
+        if (isValid) {
+            // Proceed with form submission
+        } else {
+            // Handle validation errors
+        }
     };
 
     return (
@@ -283,13 +298,14 @@ const JoinUs: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <hr />
             <form onSubmit={handleSubmit} className="edit-profile-form">
                 {inputGroups.map((group, index) => renderInputGroup(group, index))}
             </form>
 
             <div className="form-action-btns">
                 <button type="submit">Submit</button>
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => window.history.back()}>Cancel</button>
             </div>
 
             <div className="dark-bg"></div>

@@ -15,9 +15,9 @@
   --nature-gray: #c7c8b9;
   --orgcolor: #5b9bd5;
   --percolor: #ffc000;
-  --active-color: green;
-  --expire-color: red;
-  --pending-color: orange;
+  --active-color: #39FF14;
+  --expire-color: #FF073A;
+  --pending-color: #FFA500;
   --title-font-size: 2rem;
   --subtitle-font-size: 1.5rem;
   --text-font-size: 1rem;
