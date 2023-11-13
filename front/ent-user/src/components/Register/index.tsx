@@ -35,7 +35,7 @@ const UserRegister: React.FC = () => {
         if (Object.keys(errorsObject).length > 0) return;
 
         try {
-            const response = await axios.post('http://localhost:8000/auth/register_verify.php', formData, {
+            const response = await axios.post('http://localhost:8000/auth/user_verify_register.php', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

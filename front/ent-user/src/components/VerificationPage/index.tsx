@@ -33,7 +33,7 @@ const VerificationPage: React.FC = () => {
     const verifyAndInsert = useCallback(async (token: string) => {
         try {
             const response = await axios.post(
-                "http://localhost:8000/endpoint/register/user.php",
+                "http://localhost:8000/endpoint/register/user_main_register.php",
                 { token },
                 {
                     headers: {
