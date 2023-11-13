@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { UpgradeRole, CustomFieldData } from "../../types/types";
@@ -23,7 +23,7 @@ type GroupVisibility = {
 const inputGroups = [
     {
         fields: ["user_name", "user_surname", "user_email", "user_phone", "user_address", "user_city", "user_province", "user_country", "user_postcode"],
-        name: "Personal Information",
+        name: "Personal Info",
         className: "personal-info",
     },
     {
@@ -59,7 +59,7 @@ const inputGroups = [
 ]
 
 // List of groups that should be excluded from the form organization
-const exlucdedGroupsOrg = ["Institution Info",]
+const exlucdedGroupsOrg = ["Institution Info"]
 // List of groups that should be excluded from the form individual
 const excludedGroupsInd = ["Organization Info", "Representative Info", "Alternate Info", "Contact Info",]
 
@@ -121,7 +121,7 @@ const JoinUs: React.FC = () => {
         individual: inputGroups.filter((group) => !excludedGroupsInd.includes(group.name)).map((group) => group.name),
     });
 
-    const [groupVisible, setGroupVisible] = useState<Partial<GroupVisibility>>({
+    const [groupVisible, setGroupVisible] = useState<GroupVisibility>({
         personalInfo: false,
         orgInfo: false,
         contactInfo: false,
@@ -211,13 +211,6 @@ const JoinUs: React.FC = () => {
         );
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
     const renderInputGroup = (group: any, groupIndex: number) => {
         // Check if the current group should be displayed based on selected
         const selectedFormType = formVisible.organization ? "organization" : "individual";
@@ -233,20 +226,26 @@ const JoinUs: React.FC = () => {
                     <div className={`input-group-content ${groupVisible[group.name as keyof GroupVisibility] ? "open" : ""}`}>
                         {group.fields.map((key: string) => renderInputField(key))}
                     </div>
-
                 </div>
             )
         );
     };
 
-    function pickFields(source: any, fields: string[]): Partial<UpgradeRole> {
-        return fields.reduce((result, key) => {
-            if (source[key] !== undefined) {
-                result[key as keyof UpgradeRole] = source[key];
-            }
-            return result;
-        }, {} as Partial<UpgradeRole>);
-    }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    // function pickFields(source: any, fields: string[]): Partial<UpgradeRole> {
+    //     return fields.reduce((result, key) => {
+    //         if (source[key] !== undefined) {
+    //             result[key as keyof UpgradeRole] = source[key];
+    //         }
+    //         return result;
+    //     }, {} as Partial<UpgradeRole>);
+    // }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -258,9 +257,30 @@ const JoinUs: React.FC = () => {
         console.log(errors);
 
         if (isValid) {
-            // Proceed with form submission
+            // API call
+            try {
+                const response = await axios.post('http://localhost:8000/endpoint/user/upgrade_role.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                    withCredentials: true
+                })
+                
+
+                if (response.data) {
+                    console.log("API call successful");
+                } else {
+                    console.log("API call failed");
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
+
         } else {
             // Handle validation errors
+            console.log("Validation errors:", errors);
         }
     };
 

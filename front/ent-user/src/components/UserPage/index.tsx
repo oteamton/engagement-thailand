@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-// import Logout from '../../utils/logout';
-// import IndividualContent from '../RoleBasedContent/IndividualContent';
-// import OrganizationContent from '../RoleBasedContent/OrganizationContent';
-// import StandardContent from '../RoleBasedContent/StandardContent';
 import UserPanel from '../UserPanel';
 import EntLogo from '../../assets/Ent_logo280.png';
 import LoadingWrapper from '../../utils/LoadingWrapper';
@@ -19,7 +15,7 @@ const UserPage: React.FC = () => {
   const getUserData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/endpoint/user/get_user_data.php', {
+      const response = await axios.get('http://localhost:8000/endpoint/user/user_get_data.php', {
         withCredentials: true // This is the important part
       });
 
